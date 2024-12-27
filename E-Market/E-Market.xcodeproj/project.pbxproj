@@ -33,7 +33,7 @@
 		6E5510612D1F04E800DD9858 /* Exceptions for "E-Market" folder in "E-Market" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				AppResources/Info.plist,
 			);
 			target = 6E5510352D1F04E700DD9858 /* E-Market */;
 		};
