@@ -30,21 +30,13 @@ enum Images {
 }
 
 
-// MARK: - System Images
-enum SystemImages {
-    static let emptyStar  = UIImage(systemName: "star")?.withRenderingMode(.alwaysOriginal)
-    static let filledStar = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysOriginal)
-    static let backIcon   = UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysOriginal)
-    static let closeIcon  = UIImage(systemName: "xmark")?.withRenderingMode(.alwaysOriginal)
-    static let searchIcon = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysOriginal)
-    static let homeIcon   = UIImage(systemName: "house")?.withRenderingMode(.alwaysOriginal)
-    static let basketIcon = UIImage(systemName: "basket")?.withRenderingMode(.alwaysOriginal)
-    static let starIcon   = UIImage(systemName: "star")?.withRenderingMode(.alwaysOriginal)
-    static let personIcon = UIImage(systemName: "person.fill")?.withRenderingMode(.alwaysOriginal)
-}
-
-
 // MARK: - Texts
 enum Texts {
-    static let pastLaunch = "Past Launch"
+    static let search     = "Search"
+    static let filters    = "Filters:"
+    static let selectFilt = "Select Filter"
+    static let addToCart  = "Add to Cart"
+    static let price      = "Price"
+    static let total      = "Total"
+    static let complete   = "Complete"
 }

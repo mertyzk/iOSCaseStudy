@@ -10,7 +10,10 @@ import UIKit
 final class HomeView: UIView {
     
     // MARK: - UI Elements
-    var searchController = EMSearchBar(frame: .zero)
+    var searchBar            = EMSearchBar(frame: .zero)
+    private let filtersLabel = EMLabel(font: AppTheme.regular(ofSize: 18), textColor: AppTheme.Colors.systemBlack, text: Texts.filters)
+    private let filterButton = EMButton(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.selectFilt)
+    private lazy var stackV  = EMStackView(subViews: [filtersLabel, filterButton], axis: .horizontal, contentMode: .scaleAspectFill)
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: self))
@@ -35,6 +38,25 @@ final class HomeView: UIView {
     
     // MARK: - Helper Functions
     private func configureUI() {
+        [searchBar, stackV, collectionView].forEach { addSubview($0) }
+        [searchBar, stackV, collectionView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        
+        let padding: CGFloat = 16
+
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: padding),
+            searchBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            searchBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            
+            stackV.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: padding),
+            stackV.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+            stackV.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: stackV.bottomAnchor, constant: padding + 8),
+            collectionView.leadingAnchor.constraint(equalTo: stackV.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: stackV.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+        ])
 
     }
 }

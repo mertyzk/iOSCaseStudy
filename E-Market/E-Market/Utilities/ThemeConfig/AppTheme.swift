@@ -14,6 +14,7 @@ struct AppTheme {
         static let navBlue     = UIColor(hexString: "2A59FE")
         static let filterGray  = UIColor(hexString: "D9D9D9")
         static let systemWhite = UIColor(hexString: "FFFFFF")
+        static let systemBlack = UIColor(hexString: "000000")
     }
     
     
