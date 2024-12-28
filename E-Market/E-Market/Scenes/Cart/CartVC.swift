@@ -7,6 +7,13 @@
 
 import UIKit
 
-final class CartVC: UIViewController {
+final class CartVC: BaseVC {
     
+    // MARK: - Properties
+    let viewModel = CartVM()
+    private let sView = CartView()
+    
+    override func loadView() {
+        view = sView
+    }
 }

@@ -37,7 +37,7 @@ final class HomeVM {
             case .success(let products):
                 self.products = products
                 self.onFetchCompletion?(.success(()))
-            case .failure(let error):
+            case .failure(_):
                 self.onFetchCompletion?(.failure(.unableToComplete))
             }
         }

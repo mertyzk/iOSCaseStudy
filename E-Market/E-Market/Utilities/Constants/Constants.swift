@@ -43,4 +43,6 @@ enum Texts {
     static let titleText  = "iPhone 13 Pro Max 256Gb"
     static let appTitle   = "E-Market"
     static let tlIconText = "₺"
+    static let plusBtn    = "+"
+    static let minusBtn   = "-"
 }

@@ -18,7 +18,7 @@ final class HomeCell: UICollectionViewCell {
     private let starIV    = EMImageView(image: Images.emptyStar, width: 24, height: 24)
     private let priceLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
     private let titleLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.titleText)
-    private let cartBtn   = EMButton(font: AppTheme.regular(ofSize: 16), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.addToCart)
+    private let cartBtn   = EMButton(font: AppTheme.regular(ofSize: 16), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.addToCart, cornerRadius: 4)
     
     
     // MARK: - Initializer
