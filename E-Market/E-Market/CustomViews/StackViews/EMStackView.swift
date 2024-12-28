@@ -20,13 +20,6 @@ final class EMStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    /// Convenience Initializer
-    /// - Parameters:
-    ///   - subViews: arrangedSubviews
-    ///   - axis: Axis (Horizontal or Vertical)
-    ///   - contentMode: UIView Content Mode
-    ///   - spacing: Optional argument
     convenience init(subViews: [UIView], axis: NSLayoutConstraint.Axis, contentMode: UIView.ContentMode, spacing: CGFloat? = nil) {
         self.init(frame: .zero)
         set(subViews: subViews, axis: axis, contentMode: contentMode, spacing: spacing)

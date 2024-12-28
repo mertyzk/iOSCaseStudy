@@ -14,15 +14,13 @@ final class CartCell: UITableViewCell {
     
     
     // MARK: - UI Elements
-    private let productNameLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
+    private let productNameLbl  = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
     private let productPriceLbl = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
-    private let decreaseButton  = EMButton(font: AppTheme.bold(ofSize: 16), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.imageGrayBg, text: Texts.minusBtn)
-    private let productQuantity = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
-    private let increaseButton  = EMButton(font: AppTheme.bold(ofSize: 14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.plusBtn)
+    private let decreaseButton  = EMButton(font: AppTheme.bold(ofSize: 16), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.imageGrayBg, text: Texts.minusBtn, width: 50)
+    private let productQuantity = EMLabel(font: AppTheme.medium(ofSize: 16), textColor: AppTheme.Colors.systemWhite, text: "0", bgColor: AppTheme.Colors.navBlue, width: 57, textAlignment: .center)
+    private let increaseButton  = EMButton(font: AppTheme.bold(ofSize: 16), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.plusBtn, width: 50)
     private lazy var leftStack  = EMStackView(subViews: [productNameLbl, productPriceLbl], axis: .vertical, contentMode: .scaleAspectFit)
-    private lazy var rightStck  = EMStackView(subViews: [decreaseButton, productQuantity, increaseButton], axis: .horizontal, contentMode: .scaleAspectFit)
-    private lazy var mainStack  = EMStackView(subViews: [leftStack, rightStck], axis: .horizontal, contentMode: .scaleToFill)
-
+    private lazy var rightStck  = EMStackView(subViews: [decreaseButton, productQuantity, increaseButton], axis: .horizontal, contentMode: .scaleAspectFill)
     
 
     // MARK: - Initializer
@@ -38,15 +36,18 @@ final class CartCell: UITableViewCell {
     
     // MARK: - Helper Functions
     private func configureUI() {
-        addSubview(mainStack)
-        mainStack.translatesAutoresizingMaskIntoConstraints = false
+        [leftStack, rightStck].forEach { addSubview($0) }
+        [leftStack, rightStck].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         let padding: CGFloat = 10
         
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            mainStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            mainStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            leftStack.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            leftStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            
+            rightStck.topAnchor.constraint(equalTo: leftStack.topAnchor),
+            rightStck.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
+            
         ])
     }
     

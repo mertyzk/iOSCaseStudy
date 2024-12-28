@@ -20,11 +20,6 @@ final class EMImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Convenience Initializer
-    /// - Parameters:
-    ///   - image: Set UI Image to UIImageView
-    ///   - width: Dimension
-    ///   - height: Dimension
     convenience init(image: UIImage? = nil, width: CGFloat? = nil, height: CGFloat? = nil) {
         self.init(frame: .zero)
         set(image: image, width: width, height: height)

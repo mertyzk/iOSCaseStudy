@@ -20,14 +20,9 @@ final class EMLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Convenience Initializer
-    /// - Parameters:
-    ///   - font: ThemeFont type
-    ///   - textColor: ThemeColor type
-    ///   - text: String value
-    convenience init(font: UIFont, textColor: UIColor, text: String) {
+    convenience init(font: UIFont, textColor: UIColor, text: String, bgColor: UIColor? = nil, width: CGFloat? = nil, height: CGFloat? = nil, textAlignment: NSTextAlignment? = nil) {
         self.init(frame: .zero)
-        set(font: font, textColor: textColor, text: text)
+        set(font: font, textColor: textColor, text: text, bgColor: bgColor, width: width, height: height, textAlignment: textAlignment)
     }
     
     
@@ -37,10 +32,26 @@ final class EMLabel: UILabel {
         font = UIFont.systemFont(ofSize: 20)
     }
     
-    private func set(font: UIFont, textColor: UIColor, text: String) {
-        self.textColor     = textColor
-        self.font          = font
-        self.text          = text
-        self.numberOfLines = 0
+    private func set(font: UIFont, textColor: UIColor, text: String, bgColor: UIColor? = nil, width: CGFloat? = nil, height: CGFloat? = nil, textAlignment: NSTextAlignment? = nil) {
+        self.textColor           = textColor
+        self.font                = font
+        self.text                = text
+        self.numberOfLines       = 0
+        
+        if let textAlignment = textAlignment {
+            self.textAlignment = textAlignment
+        }
+        
+        if let bgColor = bgColor {
+            self.backgroundColor = bgColor
+        }
+        
+        if let width = width {
+            self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        }
+        
+        if let height = height {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
     }
 }

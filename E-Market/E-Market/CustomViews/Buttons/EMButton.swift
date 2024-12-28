@@ -20,12 +20,6 @@ final class EMButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Convenience Initializer
-    /// - Parameters:
-    ///   - font: ThemeFont type
-    ///   - textColor: ThemeColor type
-    ///   - text: String value
-    ///   - bgColor: Button background color
     convenience init(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String, width: CGFloat? = nil, height: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
         self.init(frame: .zero)
         set(font: font, textColor: textColor, bgColor: bgColor, text: text, width: width, height: height, cornerRadius: cornerRadius)

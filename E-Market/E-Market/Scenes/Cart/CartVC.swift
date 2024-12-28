@@ -13,7 +13,18 @@ final class CartVC: BaseVC {
     let viewModel = CartVM()
     private let sView = CartView()
     
+    
+    // MARK: - Lifecycle
     override func loadView() {
         view = sView
+        configureTableView()
+    }
+    
+    
+    // MARK: - Helper Functions
+    private func configureTableView() {
+        sView.tableView.delegate      = self
+        sView.tableView.dataSource    = self
+        sView.tableView.register(CartCell.self, forCellReuseIdentifier: CartCell.reuseID)
     }
 }
