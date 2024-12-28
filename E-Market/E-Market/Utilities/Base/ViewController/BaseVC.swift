@@ -41,14 +41,22 @@ class BaseVC: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         
-        let titleLabel = UILabel()
-        titleLabel.text = self.title?.isEmpty == false ? self.title : Texts.appTitle
-        titleLabel.textColor = AppTheme.Colors.systemWhite
-        titleLabel.font = AppTheme.bold(ofSize: 24)
-        titleLabel.sizeToFit()
-        
-        let leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
-        navigationItem.leftBarButtonItem = leftBarButtonItem
+        if navigationController?.viewControllers.count ?? 0 <= 1 {
+            let titleLabel = UILabel()
+            titleLabel.text = self.title?.isEmpty == false ? self.title : Texts.appTitle
+            titleLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+            titleLabel.font = AppTheme.bold(ofSize: 24)
+            titleLabel.sizeToFit()
+            
+            let leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
+            navigationItem.leftBarButtonItem = leftBarButtonItem
+        } else {
+            let backButton = UIBarButtonItem(image: Images.backIcon, style: .plain, target: self, action: #selector(backButtonTapped))
+            backButton.tintColor = .white
+            
+            navigationItem.leftBarButtonItem = backButton
+            self.title = self.title?.isEmpty == false ? self.title : Texts.appTitle
+        }
     }
     
     
@@ -75,10 +83,16 @@ class BaseVC: UIViewController {
         }
     }
     
+    
     @objc func hideLoading() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             self.activityIndicator?.stopAnimating()
         }
+    }
+    
+    
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }

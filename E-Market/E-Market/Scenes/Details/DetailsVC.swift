@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailsVC: UIViewController {
+final class DetailsVC: BaseVC {
     // MARK: - Properties
     private let sView = DetailsView()
     var viewModel: DetailsVM
