@@ -5,38 +5,45 @@
 //  Created by Macbook Air on 27.12.2024.
 //
 
-import Foundation
+import UIKit
 
-class NetworkManager {
-    
+class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
     
     private init() { }
     
-    func request<T: Decodable>(_ endpoint: Endpoint, responseType: T.Type) async throws -> T {
+    func request<T: BaseRequest>(_ request: T, completion: @escaping (Result<T.ResponseType, NetworkErrors>) -> Void) {
         NotificationCenter.default.post(name: .showLoading, object: nil)
-        let request = endpoint.request()
         
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+        URLSession.shared.dataTask(with: request.endpoint.request()) { data, response, error in
             
-            NotificationCenter.default.post(name: .hideLoading, object: nil)
+            defer {
+                NotificationCenter.default.post(name: .hideLoading, object: nil)
+            }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkErrors.invalidResponse
+            if let _ = error {
+                completion(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
             }
             
             do {
-                let response = try JSONDecoder().decode(T.self, from: data)
-                return response
+                let result = try JSONDecoder().decode(T.ResponseType.self, from: data)
+                
+                completion(.success(result))
             } catch {
-                throw NetworkErrors.invalidData
+                completion(.failure(.invalidData))
             }
             
-        } catch {
-            throw NetworkErrors.unableToComplete
-        }
+        }.resume()
     }
-    
 }

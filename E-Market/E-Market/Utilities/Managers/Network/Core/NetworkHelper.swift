@@ -25,9 +25,7 @@ enum HTTPMethod: String {
 
 
 enum Endpoint {
-    case getProducts
     case getProductsByPagination(page: Int, limit: Int)
-    case getProductDetailById(id: Int)
 }
 
 
@@ -40,23 +38,15 @@ extension Endpoint: EndpointProtocol {
     
     var path: String {
         switch self {
-        case .getProducts:
-            return "/v5/launches/upcoming"
         case .getProductsByPagination(let page, let limit):
             return "/products?page=\(page)&limit=\(limit)"
-        case .getProductDetailById(let id):
-            return "/products/\(id)"
         }
     }
     
     
     var method: HTTPMethod {
         switch self {
-        case .getProducts:
-            return .get
         case .getProductsByPagination:
-            return .get
-        case .getProductDetailById:
             return .get
         }
     }
@@ -74,13 +64,11 @@ extension Endpoint: EndpointProtocol {
     
     
     func request() -> URLRequest {
-        guard var components = URLComponents(string: baseURL) else { fatalError(NetworkErrors.invalidURL.rawValue) }
         
-        // Add path
-        components.path = path
+        let urlString = baseURL + path
         
         // Create request
-        var request = URLRequest(url: components.url!)
+        var request = URLRequest(url: URL(string: urlString)!)
         request.httpMethod = method.rawValue
         
         // Add parameters

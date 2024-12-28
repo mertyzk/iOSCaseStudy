@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class HomeVC: BaseVC {
+final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - Properties
     private let sView = HomeView()
-    private var viewModel: HomeVM
+    var viewModel: HomeVM
     
     
     // MARK: - DeInitializer
@@ -35,7 +35,12 @@ final class HomeVC: BaseVC {
     // MARK: - Lifecycle
     override func loadView() {
         view = sView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         configureCollectionView()
+        configureData()
     }
     
     
@@ -44,6 +49,20 @@ final class HomeVC: BaseVC {
         sView.collectionView.delegate = self
         sView.collectionView.dataSource = self
         sView.collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.reuseID)
+    }
+    
+    
+    private func configureData() {
+        viewModel.fetchProducts()
+        viewModel.onFetchCompletion = { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                self.sView.collectionView.reloadAtMainThread()
+            case .failure(let error):
+                self.showAlert(title: AlertConstants.errorTitle, message: error.rawValue, type: .confirm) { }
+            }
+        }
     }
     
     
