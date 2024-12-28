@@ -14,10 +14,13 @@ class NetworkManager {
     private init() { }
     
     func request<T: Decodable>(_ endpoint: Endpoint, responseType: T.Type) async throws -> T {
+        NotificationCenter.default.post(name: .showLoading, object: nil)
         let request = endpoint.request()
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
+            
+            NotificationCenter.default.post(name: .hideLoading, object: nil)
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {

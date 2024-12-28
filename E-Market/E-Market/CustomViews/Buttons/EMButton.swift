@@ -26,9 +26,9 @@ final class EMButton: UIButton {
     ///   - textColor: ThemeColor type
     ///   - text: String value
     ///   - bgColor: Button background color
-    convenience init(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String) {
+    convenience init(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String, width: CGFloat? = nil, height: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
         self.init(frame: .zero)
-        set(font: font, textColor: textColor, bgColor: bgColor, text: text)
+        set(font: font, textColor: textColor, bgColor: bgColor, text: text, width: width, height: height)
     }
     
     
@@ -38,10 +38,22 @@ final class EMButton: UIButton {
         titleLabel?.font = UIFont.systemFont(ofSize: 20)
     }
     
-    private func set(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String) {
+    private func set(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String, width: CGFloat? = nil, height: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
         titleLabel?.font = font
         backgroundColor  = bgColor
         setTitleColor(textColor, for: .normal)
         setTitle(text, for: .normal)
+        
+        if let width = width {
+            self.widthAnchor.constraint(equalToConstant: width).isActive   = true
+        }
+        
+        if let height = height {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
+        
+        if let cornerRadius = cornerRadius {
+            layer.cornerRadius = cornerRadius
+        }
     }
 }

@@ -39,4 +39,7 @@ enum Texts {
     static let price      = "Price"
     static let total      = "Total"
     static let complete   = "Complete"
+    static let priceText  = "15.000 ₺"
+    static let titleText  = "iPhone 13 Pro Max 256Gb"
+    static let appTitle   = "E-Market"
 }

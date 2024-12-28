@@ -38,8 +38,9 @@ final class EMLabel: UILabel {
     }
     
     private func set(font: UIFont, textColor: UIColor, text: String) {
-        self.textColor  = textColor
-        self.font       = font
-        self.text       = text
+        self.textColor     = textColor
+        self.font          = font
+        self.text          = text
+        self.numberOfLines = 0
     }
 }

@@ -15,6 +15,7 @@ struct AppTheme {
         static let filterGray  = UIColor(hexString: "D9D9D9")
         static let systemWhite = UIColor(hexString: "FFFFFF")
         static let systemBlack = UIColor(hexString: "000000")
+        static let imageGrayBg = UIColor(hexString: "C4C4C4")
     }
     
     
