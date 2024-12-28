@@ -7,6 +7,24 @@
 
 import UIKit
 
-final class FavoritesVC: UIViewController {
+final class FavoritesVC: BaseVC {
+    // MARK: - Properties
+    private let sView = FavoritesView()
+    let viewModel = FavoritesVM()
+    
+    
+    // MARK: - Lifecycle
+    override func loadView() {
+        view = sView
+        configureCollectionView()
+    }
+    
+    
+    // MARK: - Helper Functions
+    private func configureCollectionView() {
+        sView.collectionView.delegate = self
+        sView.collectionView.dataSource = self
+        sView.collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.reuseID)
+    }
     
 }

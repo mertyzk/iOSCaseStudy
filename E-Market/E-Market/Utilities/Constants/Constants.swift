@@ -45,4 +45,5 @@ enum Texts {
     static let tlIconText = "₺"
     static let plusBtn    = "+"
     static let minusBtn   = "-"
+    static let favorites  = "Favorites"
 }
