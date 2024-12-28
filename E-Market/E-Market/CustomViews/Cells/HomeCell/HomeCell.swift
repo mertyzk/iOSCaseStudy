@@ -73,4 +73,23 @@ final class HomeCell: UICollectionViewCell {
             cartBtn.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
     }
+    
+    
+    func configureData(with product: Product, isFavorite: Bool) {
+        guard let price = product.price else { return }
+        guard let imageURLString = product.image, let imageURL = URL(string: imageURLString) else { return }
+        
+        titleLbl.text = product.name
+        priceLbl.text = "\(price.trimDecimalZeros()) \(Texts.tlIconText)"
+        /*buttonFavorite.setImage(
+            UIImage(systemName: isFavorite ? SystemImages.filledStar.rawValue : SystemImages.star.rawValue),
+            for: .normal)*/
+        
+        NetworkManager.shared.downloadImage(from: imageURL) { [weak self] image in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.productIV.image = image
+            }
+        }
+    }
 }

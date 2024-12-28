@@ -20,7 +20,7 @@ final class HomeVM {
     
     var onFetchCompletion: ((Result<Void, NetworkErrors>) -> Void)?
     
-    
+
     // MARK: - Initializer
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkManager
@@ -43,4 +43,21 @@ final class HomeVM {
         }
     }
     
+    
+    func product(for index: Int) -> Product? {
+        guard !products.isEmpty else { return nil }
+        return products[index]
+    }
+    
+    
+    func doesProductFavorite(for product: Product) -> Bool {
+        let favProducts = getFavProducts()
+        return favProducts.contains(product.id ?? "")
+    }
+    
+    func getFavProducts() -> [String] {
+        //guard let favoriteProducts = try? favoriteDB.fetchProductList() else { return [] }
+       // return favoriteProducts.compactMap { $0.id }
+        return [""]
+    }
 }

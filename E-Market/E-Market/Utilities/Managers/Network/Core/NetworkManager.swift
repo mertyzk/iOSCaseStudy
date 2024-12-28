@@ -46,4 +46,21 @@ class NetworkManager: NetworkManagerProtocol {
             
         }.resume()
     }
+    
+    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("xxxxxxxxxxx DEBUG: Image loading error => \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            
+            completion(image)
+        }.resume()
+    }
 }

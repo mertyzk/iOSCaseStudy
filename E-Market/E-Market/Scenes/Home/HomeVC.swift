@@ -11,25 +11,13 @@ final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - Properties
     private let sView = HomeView()
-    var viewModel: HomeVM
+    let viewModel = HomeVM()
     
     
     // MARK: - DeInitializer
     deinit {
         
     }
-    
-    
-    // MARK: - Initializer
-    init(viewModel: HomeVM) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
     
     // MARK: - Lifecycle

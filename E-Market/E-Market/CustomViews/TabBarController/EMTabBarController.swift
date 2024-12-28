@@ -18,8 +18,7 @@ class EMTabBarController: UITabBarController {
     
     // MARK: - Helper Functions
     private func configureViewControllers() {
-        let homeVM                  = HomeVM()
-        let homeVC                  = configureNavigationController(rootVC: HomeVC(viewModel: homeVM), image: Images.homeIcon)
+        let homeVC                  = configureNavigationController(rootVC: HomeVC(), image: Images.homeIcon)
         let cartVC                  = configureNavigationController(rootVC: CartVC(), image: Images.basketIcon)
         let favoritesVC             = configureNavigationController(rootVC: FavoritesVC(), image: Images.starIcon)
         let profileVC               = configureNavigationController(rootVC: ProfileVC(), image: Images.personIcon)

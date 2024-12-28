@@ -33,7 +33,7 @@ final class EMImageView: UIImageView {
     
     // MARK: - Helper Functions
     private func configureImageView() {
-        backgroundColor = AppTheme.Colors.imageGrayBg
+        backgroundColor = .clear
     }
     
     private func set(image: UIImage? = nil, width: CGFloat? = nil, height: CGFloat? = nil) {
@@ -42,7 +42,8 @@ final class EMImageView: UIImageView {
         }
         
         self.clipsToBounds                                                 = true
-        self.contentMode                                                   = .scaleAspectFit
+        self.layer.masksToBounds                                           = true
+        self.contentMode                                                   = .scaleAspectFill
         
         if let width = width {
             self.widthAnchor.constraint(equalToConstant: width).isActive   = true
