@@ -24,6 +24,6 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         guard let product = viewModel.product(for: indexPath.row) else { return }
         let detailVM      = DetailsVM(product: product)
         let destinationVC = DetailsVC(viewModel: detailVM)
-        navigationController?.pushViewController(destinationVC, animated: true)
+        navigationController?.pushViewController(destinationVC, animated: false)
     }
 }
