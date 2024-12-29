@@ -60,4 +60,11 @@ final class HomeVM {
        // return favoriteProducts.compactMap { $0.id }
         return [""]
     }
+    
+    
+    func configureFilterOptions() -> Filter {
+        let uniqueBrands = Set(products.compactMap { $0.brand })
+        let uniqueModels = Set(products.compactMap { $0.model })
+        return Filter(brands: Array(uniqueBrands), models: Array(uniqueModels))
+    }
 }

@@ -23,12 +23,9 @@ final class HomeVC: BaseVC, AlertManager {
     // MARK: - Lifecycle
     override func loadView() {
         view = sView
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         configureCollectionView()
         configureData()
+        configureActions()
     }
     
     
@@ -54,5 +51,15 @@ final class HomeVC: BaseVC, AlertManager {
     }
     
     
+    private func configureActions() {
+        sView.filterButton.addTarget(self, action: #selector(filterButtonAction), for: .touchUpInside)
+    }
+    
+    
     // MARK: - @Actions
+    @objc private func filterButtonAction() {
+        let filterVM = FilterVM(filterOptions: viewModel.configureFilterOptions())
+        let nav = UINavigationController(rootViewController: FilterVC(viewModel: filterVM))
+        navigationController?.show(nav, sender: nil)
+    }
 }
