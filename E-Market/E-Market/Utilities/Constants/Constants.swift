@@ -46,4 +46,5 @@ enum Texts {
     static let plusBtn    = "+"
     static let minusBtn   = "-"
     static let favorites  = "Favorites"
+    static let filterText = "Filter"
 }

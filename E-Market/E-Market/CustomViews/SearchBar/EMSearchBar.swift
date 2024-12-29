@@ -28,6 +28,7 @@ class EMSearchBar: UISearchBar {
         searchTextField.keyboardAppearance = .default
         spellCheckingType = .no
         autocorrectionType = .no
+        placeholder = Texts.search
     }
     
     

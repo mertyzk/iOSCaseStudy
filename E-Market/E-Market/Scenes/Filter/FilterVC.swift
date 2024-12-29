@@ -10,7 +10,7 @@ import UIKit
 final class FilterVC: UIViewController {
 
     // MARK: - Properties
-    private let sView = FilterView()
+    let sView = FilterView()
     var viewModel: FilterVM
     
     
@@ -28,11 +28,8 @@ final class FilterVC: UIViewController {
     // MARK: - Lifecycle
     override func loadView() {
         view = sView
+        title = Texts.filterText
         configureBarButton()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         configureTableView()
     }
     

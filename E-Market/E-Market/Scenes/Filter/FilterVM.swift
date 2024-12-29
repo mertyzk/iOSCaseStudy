@@ -16,10 +16,14 @@ final class FilterVM {
     
     // MARK: - Properties
     var filterOptions: Filter
+    let sectionTitles = ["Sort Options", "Brands", "Models"]
     let staticSorting = ["Old to new", "New to old", "Price high to low", "Price low to High"]
     var selectedSort: Int? = nil
     var selectedBrands: [String] = []
     var selectedModels: [String] = []
+    var filteredSortOptions: [String] = []
+    var filteredBrands: [String] = []
+    var filteredModels: [String] = []
     
     weak var delegate: Filterable?
     
@@ -27,7 +31,6 @@ final class FilterVM {
     // MARK: - Initializer
     init(filterOptions: Filter) {
         self.filterOptions = filterOptions
-        print("xxxxxxxxxxx DEBUG: \(filterOptions)")
     }
     
     
@@ -41,5 +44,5 @@ final class FilterVM {
     
     
     
-
+    
 }
