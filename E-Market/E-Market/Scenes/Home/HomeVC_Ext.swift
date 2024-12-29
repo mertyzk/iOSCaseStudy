@@ -7,7 +7,9 @@
 
 import UIKit
 
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfItems
     }
@@ -19,6 +21,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         item.configureData(with: product, isFavorite: true)
         return item
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = viewModel.product(for: indexPath.row) else { return }
