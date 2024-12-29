@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EMSearchBar: UISearchBar {
+final class EMSearchBar: UISearchBar {
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -44,6 +44,12 @@ class EMSearchBar: UISearchBar {
     }
     
     
+    func setDelegate(_ delegate: UISearchBarDelegate) {
+        self.delegate = delegate
+    }
+    
+    
+    // MARK: - @Actions
     @objc func doneButtonAction() {
         resignFirstResponder()
     }

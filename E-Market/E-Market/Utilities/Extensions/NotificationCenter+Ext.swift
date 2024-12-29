@@ -8,6 +8,7 @@
 import Foundation
 
 extension Notification.Name {
-    static let showLoading                  = Notification.Name("showLoading")
-    static let hideLoading                  = Notification.Name("hideLoading")
+    static let showLoading   = Notification.Name("showLoading")
+    static let hideLoading   = Notification.Name("hideLoading")
+    static let changeCartDB  = Notification.Name("changeCartDB")
 }

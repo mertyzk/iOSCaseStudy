@@ -32,6 +32,4 @@ class EMTabBarController: UITabBarController {
         navigation.tabBarItem.image = image
         return navigation
     }
-    
-
 }

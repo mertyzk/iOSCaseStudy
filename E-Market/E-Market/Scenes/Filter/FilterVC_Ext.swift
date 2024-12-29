@@ -10,15 +10,14 @@ import UIKit
 // MARK: - UISearchBarDelegate
 extension FilterVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        switch searchBar.tag {
-        case 1: // Brands
-            viewModel.filteredBrands = searchText.isEmpty ? viewModel.filterOptions.brands : viewModel.filterOptions.brands.filter { $0.lowercased().contains(searchText.lowercased()) }
-        case 2: // Models
-            viewModel.filteredModels = searchText.isEmpty ? viewModel.filterOptions.models : viewModel.filterOptions.models.filter { $0.lowercased().contains(searchText.lowercased()) }
-        default:
-            break
+        for (index, tableView) in sView.createdTableViews.enumerated() {
+            if let headerView = tableView.headerView(forSection: 0) as? FiltersSectionHeader,
+               headerView.contains(searchBar: searchBar) {
+                viewModel.searchFilter(for: searchText, in: index + 1)
+                tableView.reloadData()
+                break
+            }
         }
-        sView.tableView.reloadAtMainThread()
     }
 }
 
@@ -26,35 +25,40 @@ extension FilterVC: UISearchBarDelegate {
 // MARK: - UITableViewDataSource
 extension FilterVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.sectionTitles.count
+        return 1
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return viewModel.staticSorting.count
-        case 1: return viewModel.filterOptions.brands.count
-        case 2: return viewModel.filterOptions.models.count
-        default: return 0
+        if tableView == sView.sortTableView {
+            return viewModel.numberOfRows(for: 0)
+        } else if let index = sView.createdTableViews.firstIndex(of: tableView) {
+            return viewModel.numberOfRows(for: index)
         }
+        return 0
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.selectionStyle = .none
-        switch indexPath.section {
-        case 0:
-            cell.textLabel?.text = viewModel.staticSorting[indexPath.row]
-            cell.accessoryType = viewModel.selectedSort == indexPath.row ? .checkmark : .none
-        case 1:
-            cell.textLabel?.text = viewModel.filterOptions.brands[indexPath.row]
-            cell.accessoryType = viewModel.selectedBrands.contains(viewModel.filterOptions.brands[indexPath.row]) ? .checkmark : .none
-        case 2:
-            cell.textLabel?.text = viewModel.filterOptions.models[indexPath.row]
-            cell.accessoryType = viewModel.selectedModels.contains(viewModel.filterOptions.models[indexPath.row]) ? .checkmark : .none
-        default:
-            break
+        if tableView == sView.sortTableView {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SortFilterCell.reuseID, for: indexPath) as? SortFilterCell else {
+                return UITableViewCell()
+            }
+            let selection = viewModel.selection(at: indexPath)
+            let isSelected = viewModel.isSelected(at: indexPath)
+            cell.configureCell(with: selection, isSelected: isSelected)
+            return cell
+        } else if let index = sView.createdTableViews.firstIndex(of: tableView) {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: FilterSelectCell.reuseID, for: indexPath) as? FilterSelectCell else {
+                return UITableViewCell()
+            }
+            let adjustedIndexPath = IndexPath(row: indexPath.row, section: index + 1)
+            let selection = viewModel.selection(at: adjustedIndexPath)
+            let isSelected = viewModel.isSelected(at: adjustedIndexPath)
+            cell.configureCell(with: selection, isSelected: isSelected)
+            return cell
         }
-        return cell
+        return UITableViewCell()
     }
 }
 
@@ -62,120 +66,36 @@ extension FilterVC: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension FilterVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            viewModel.selectedSort = indexPath.row
-        case 1:
-            let brand = viewModel.filterOptions.brands[indexPath.row]
-            if viewModel.selectedBrands.contains(brand) {
-                viewModel.selectedBrands.removeAll { $0 == brand }
-            } else {
-                viewModel.selectedBrands.append(brand)
-            }
-        case 2:
-            let model = viewModel.filterOptions.models[indexPath.row]
-            if viewModel.selectedModels.contains(model) {
-                viewModel.selectedModels.removeAll { $0 == model }
-            } else {
-                viewModel.selectedModels.append(model)
-            }
-        default:
-            break
+        if tableView == sView.sortTableView {
+            viewModel.selectOption(at: indexPath)
+            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+        } else if let index = sView.createdTableViews.firstIndex(of: tableView) {
+            let adjustedIndexPath = IndexPath(row: indexPath.row, section: index + 1)
+            viewModel.selectOption(at: adjustedIndexPath)
+            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
         }
-        tableView.reloadData()
-    }
-    
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return viewModel.sectionTitles[section]
-    }
-    
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let header = view as? UITableViewHeaderFooterView {
-            header.contentView.backgroundColor = AppTheme.Colors.systemWhite
-            header.textLabel?.textColor = AppTheme.Colors.systemBlack.withAlphaComponent(0.5)
-            header.textLabel?.font = AppTheme.medium(ofSize: 12)
-        }
-    }
-    
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView()
-        footerView.backgroundColor = .clear
         
-        let divider = UIView()
-        divider.backgroundColor = AppTheme.Colors.systemBlack
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        footerView.addSubview(divider)
-        
-        NSLayoutConstraint.activate([
-            divider.heightAnchor.constraint(equalToConstant: 0.5),
-            divider.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 16),
-            divider.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -16),
-            divider.topAnchor.constraint(equalTo: footerView.topAnchor),
-            divider.bottomAnchor.constraint(equalTo: footerView.bottomAnchor)
-        ])
-        
-        return footerView
-    }
-    
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.5
+        guard let searchBar = (tableView.headerView(forSection: .zero) as? FiltersSectionHeader)?.searchBar else { return }
+        self.searchBar(searchBar, textDidChange: "")
     }
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section != 0 {
-            let headerView = UIView()
-            headerView.backgroundColor = AppTheme.Colors.systemWhite
-            
-            let scrollView = UIScrollView()
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.showsHorizontalScrollIndicator = false
-            scrollView.showsVerticalScrollIndicator = false
-            headerView.addSubview(scrollView)
-            
-            let contentView = UIView()
-            contentView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(contentView)
-            
-            let searchBar = UISearchBar()
-            searchBar.placeholder = "Search \(viewModel.sectionTitles[section])"
-            searchBar.delegate = self
-            searchBar.backgroundColor = AppTheme.Colors.systemWhite
-            searchBar.tag = section
-            searchBar.translatesAutoresizingMaskIntoConstraints = false
-            searchBar.backgroundImage = UIImage()
-            
-            headerView.addSubview(searchBar)
-            
-            NSLayoutConstraint.activate([
-                scrollView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-                scrollView.topAnchor.constraint(equalTo: headerView.topAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
-
-                contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                contentView.widthAnchor.constraint(equalTo: headerView.widthAnchor),
-
-                searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-                searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-                searchBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-                searchBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-            ])
-            
-            return headerView
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: FiltersSectionHeader.reuseID) as? FiltersSectionHeader else {
+            return nil
         }
-        return nil
-    }
-    
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0 : 50
+        let title: String
+        let isSearchBarVisible: Bool
+        if tableView == sView.sortTableView {
+            title = Texts.sortHeader
+            isSearchBarVisible = false
+        } else if let index = sView.createdTableViews.firstIndex(of: tableView) {
+            title = viewModel.filterSelections[index].keys.first ?? ""
+            isSearchBarVisible = true
+        } else {
+            return nil
+        }
+        headerView.configure(title: title, searchBarDelegate: self, isSearchBarVisible: isSearchBarVisible)
+        return headerView
     }
 }

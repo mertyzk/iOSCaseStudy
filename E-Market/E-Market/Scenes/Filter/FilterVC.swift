@@ -30,7 +30,7 @@ final class FilterVC: UIViewController {
         view = sView
         title = Texts.filterText
         configureBarButton()
-        configureTableView()
+        configureTableViews()
     }
     
     
@@ -41,9 +41,16 @@ final class FilterVC: UIViewController {
     }
     
     
-    private func configureTableView() {
-        sView.tableView.delegate = self
-        sView.tableView.dataSource = self
+    private func configureTableViews() {
+        sView.sortTableView.delegate = self
+        sView.sortTableView.dataSource = self
+        sView.sortTableView.register(SortFilterCell.self, forCellReuseIdentifier: SortFilterCell.reuseID)
+        sView.createdTableViews.forEach { tv in
+            tv.delegate = self
+            tv.dataSource = self
+            tv.register(FilterSelectCell.self, forCellReuseIdentifier: FilterSelectCell.reuseID)
+            tv.register(FiltersSectionHeader.self, forHeaderFooterViewReuseIdentifier: FiltersSectionHeader.reuseID)
+        }
     }
     
     

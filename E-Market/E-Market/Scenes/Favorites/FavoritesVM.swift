@@ -8,5 +8,13 @@
 import Foundation
 
 final class FavoritesVM {
+    var favoriteHandler: FavoriteHandler
     
+    init(favoriteHandler: FavoriteHandler) {
+        self.favoriteHandler = favoriteHandler
+    }
+    
+    func addFavorite(product: Product) async throws {
+        
+    }
 }

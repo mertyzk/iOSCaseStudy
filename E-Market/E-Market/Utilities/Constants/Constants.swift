@@ -47,4 +47,15 @@ enum Texts {
     static let minusBtn   = "-"
     static let favorites  = "Favorites"
     static let filterText = "Filter"
+    static let sortHeader = "Sort By"
+    static let entity404  = "Entity not found"
+}
+
+
+// MARK: - SystemImages
+enum SystemImages {
+    static let circle     = "circle"
+    static let filledCirc = "circle.inset.filled"
+    static let checkBox   = "checkmark.square"
+    static let filledCBox = "checkmark.square.fill"
 }

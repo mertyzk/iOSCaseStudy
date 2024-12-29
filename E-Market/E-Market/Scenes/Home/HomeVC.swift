@@ -58,7 +58,8 @@ final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - @Actions
     @objc private func filterButtonAction() {
-        let filterVM = FilterVM(filterOptions: viewModel.configureFilterOptions())
+        let filtrOpt = viewModel.configureFilterOptions()
+        let filterVM = FilterVM(filterSelections: filtrOpt, sortSelections: viewModel.sortSelections, selectedFilters: viewModel.selectedFilters, selectedSort: viewModel.selectedSortOption?.rawValue)
         let nav = UINavigationController(rootViewController: FilterVC(viewModel: filterVM))
         navigationController?.show(nav, sender: nil)
     }

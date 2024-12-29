@@ -13,9 +13,19 @@ final class HomeVM {
     private let networkManager: NetworkManagerProtocol
     
     var products: [Product] = []
-    
+    var selectedFilters: [String: [String]] = [:]
+    var selectedSortOption: SortingOptions?
     var numberOfItems: Int {
         return products.count
+    }
+    
+    enum FilterType: String {
+        case Brand
+        case Model
+    }
+    
+    var sortSelections: [String] {
+        return SortingOptions.allCases.map { $0.rawValue }
     }
     
     var onFetchCompletion: ((Result<Void, NetworkErrors>) -> Void)?
@@ -50,10 +60,11 @@ final class HomeVM {
     }
     
     
-    func doesProductFavorite(for product: Product) -> Bool {
+    func isProductFavorite(for product: Product) -> Bool {
         let favProducts = getFavProducts()
         return favProducts.contains(product.id ?? "")
     }
+    
     
     func getFavProducts() -> [String] {
         //guard let favoriteProducts = try? favoriteDB.fetchProductList() else { return [] }
@@ -61,10 +72,9 @@ final class HomeVM {
         return [""]
     }
     
-    
-    func configureFilterOptions() -> Filter {
-        let uniqueBrands = Set(products.compactMap { $0.brand })
-        let uniqueModels = Set(products.compactMap { $0.model })
-        return Filter(brands: Array(uniqueBrands), models: Array(uniqueModels))
+    func configureFilterOptions() -> [[String: [String]]] {
+        let uniqueBrands = Set(products.compactMap { $0.brand }).sorted()
+        let uniqueModels = Set(products.compactMap { $0.model }).sorted()
+        return [[FilterType.Brand.rawValue: uniqueBrands], [FilterType.Model.rawValue: uniqueModels]]
     }
 }
