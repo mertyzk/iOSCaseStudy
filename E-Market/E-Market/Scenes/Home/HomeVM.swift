@@ -11,29 +11,23 @@ final class HomeVM {
     
     // MARK: - Properties
     private let networkManager: NetworkManagerProtocol
+    private let favoriteManager: FavoriteHandler
     
     var products: [Product] = []
-    var selectedFilters: [String: [String]] = [:]
-    var selectedSortOption: SortingOptions?
+
+    
     var numberOfItems: Int {
         return products.count
     }
     
-    enum FilterType: String {
-        case Brand
-        case Model
-    }
-    
-    var sortSelections: [String] {
-        return SortingOptions.allCases.map { $0.rawValue }
-    }
     
     var onFetchCompletion: ((Result<Void, NetworkErrors>) -> Void)?
     
 
     // MARK: - Initializer
-    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+    init(networkManager: NetworkManagerProtocol = NetworkManager.shared, favoriteManager: FavoriteHandler) {
         self.networkManager = networkManager
+        self.favoriteManager = favoriteManager
     }
     
     
@@ -72,9 +66,9 @@ final class HomeVM {
         return [""]
     }
     
-    func configureFilterOptions() -> [[String: [String]]] {
+    /*func configureFilterOptions() -> [[String: [String]]] {
         let uniqueBrands = Set(products.compactMap { $0.brand }).sorted()
         let uniqueModels = Set(products.compactMap { $0.model }).sorted()
         return [[FilterType.Brand.rawValue: uniqueBrands], [FilterType.Model.rawValue: uniqueModels]]
-    }
+    }*/
 }

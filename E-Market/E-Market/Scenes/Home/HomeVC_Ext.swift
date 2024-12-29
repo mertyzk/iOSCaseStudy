@@ -17,6 +17,7 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.reuseID, for: indexPath) as? HomeCell else { return UICollectionViewCell() }
+        item.delegate = self
         guard let product = viewModel.product(for: indexPath.row) else { return item }
         item.configureData(with: product, isFavorite: true)
         return item
@@ -29,4 +30,19 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let destinationVC = DetailsVC(viewModel: detailVM)
         navigationController?.pushViewController(destinationVC, animated: false)
     }
+}
+
+
+// MARK: - HomeCellProtocol
+extension HomeVC: HomeCellProtocol {
+    func favoriteButtonTapped(product: Product) {
+        print("xxxxxxxxxxx DEBUG: favoriteButtonTapped")
+    }
+    
+    
+    func addToCartButtonTapped(product: Product) {
+        print("xxxxxxxxxxx DEBUG: addToCartButtonTapped")
+    }
+    
+    
 }

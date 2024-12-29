@@ -20,9 +20,11 @@ final class EMButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String, width: CGFloat? = nil, height: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
+    convenience init(font: UIFont? = nil, textColor: UIColor? = nil, bgColor: UIColor? = nil,
+                     text: String? = nil, width: CGFloat? = nil, height: CGFloat? = nil,
+                     cornerRadius: CGFloat? = nil, image: UIImage? = nil) {
         self.init(frame: .zero)
-        set(font: font, textColor: textColor, bgColor: bgColor, text: text, width: width, height: height, cornerRadius: cornerRadius)
+        set(font: font, textColor: textColor, bgColor: bgColor, text: text, width: width, height: height, cornerRadius: cornerRadius, image: image)
     }
     
     
@@ -32,12 +34,25 @@ final class EMButton: UIButton {
         titleLabel?.font = UIFont.systemFont(ofSize: 20)
     }
     
-    private func set(font: UIFont, textColor: UIColor, bgColor: UIColor, text: String, width: CGFloat? = nil, height: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
-        titleLabel?.font = font
-        backgroundColor  = bgColor
-        setTitleColor(textColor, for: .normal)
-        setTitle(text, for: .normal)
+    private func set(font: UIFont? = nil, textColor: UIColor? = nil, bgColor: UIColor? = nil,
+                     text: String? = nil, width: CGFloat? = nil, height: CGFloat? = nil,
+                     cornerRadius: CGFloat? = nil, image: UIImage? = nil) {
+        if let font = font {
+            titleLabel?.font = font
+        }
         
+        if let bgColor = bgColor {
+            backgroundColor  = bgColor
+        }
+        
+        if let textColor = textColor {
+            setTitleColor(textColor, for: .normal)
+        }
+        
+        if let text = text {
+            setTitle(text, for: .normal)
+        }
+
         if let width = width {
             self.widthAnchor.constraint(equalToConstant: width).isActive   = true
         }
@@ -49,5 +64,10 @@ final class EMButton: UIButton {
         if let cornerRadius = cornerRadius {
             layer.cornerRadius = cornerRadius
         }
+        
+        if let image = image {
+            setImage(image, for: .normal)
+        }
+        
     }
 }

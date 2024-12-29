@@ -11,12 +11,21 @@ final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - Properties
     private let sView = HomeView()
-    let viewModel = HomeVM()
+    var viewModel: HomeVM
     
     
     // MARK: - DeInitializer
     deinit {
         
+    }
+    
+    init(viewModel: HomeVM) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -58,8 +67,7 @@ final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - @Actions
     @objc private func filterButtonAction() {
-        let filtrOpt = viewModel.configureFilterOptions()
-        let filterVM = FilterVM(filterSelections: filtrOpt, sortSelections: viewModel.sortSelections, selectedFilters: viewModel.selectedFilters, selectedSort: viewModel.selectedSortOption?.rawValue)
+        let filterVM = FilterVM()
         let nav = UINavigationController(rootViewController: FilterVC(viewModel: filterVM))
         navigationController?.show(nav, sender: nil)
     }
