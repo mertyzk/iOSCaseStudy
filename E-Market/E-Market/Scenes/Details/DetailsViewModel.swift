@@ -35,14 +35,37 @@ final class DetailsViewModel {
     
     
     func addToCart(product: Product, completion: @escaping (DBErrors?) -> ()) {
-        var newProduct = product
-        newProduct.quantity = 1
-        cartManager.addToLocalDB(product: newProduct) { result in
+        cartManager.fetchProductsFromLocalDB { [weak self] result in
+            guard let self = self else { return }
             switch result {
-            case .success(_):
-                completion(nil)
-            case .failure(let failure):
-                completion(failure)
+            case .success(let products):
+                if let index = products.firstIndex(where: { $0.id == product.id }) {
+                    var existingProduct = products[index]
+                    existingProduct.quantity = (existingProduct.quantity ?? 0) + 1
+                    self.cartManager.updateProductFromLocalDB(product: existingProduct) { result in
+                        switch result {
+                        case .success(_):
+                            completion(nil)
+                        case .failure(let error):
+                            completion(error)
+                        }
+                    }
+                } else {
+                    var newProduct = product
+                    newProduct.quantity = 1
+                    self.cartManager.addToLocalDB(product: newProduct) { result in
+                        switch result {
+                        case .success(_):
+                            completion(nil)
+                        case .failure(let error):
+                            completion(error)
+                        }
+                    }
+                }
+                let diffrentProducts = Set(products.map { $0.id })
+                NotificationCenter.default.post(name: .changeCartDB, object: nil)
+            case .failure(let error):
+                completion(error)
             }
         }
     }

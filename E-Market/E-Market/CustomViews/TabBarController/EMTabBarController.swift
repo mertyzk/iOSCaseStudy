@@ -13,6 +13,8 @@ class EMTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControllers()
+        setupNotificationObservers()
+        getCartCount()
     }
     
     
@@ -34,5 +36,42 @@ class EMTabBarController: UITabBarController {
         let navigation              = UINavigationController(rootViewController: rootVC)
         navigation.tabBarItem.image = image
         return navigation
+    }
+    
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setCartBadge), name: .changeCartDB, object: nil)
+    }
+    
+    @discardableResult
+    private func getCartCount() -> Int?{
+        let cartManager = CartStore()
+        var products: [Product] = []
+        var distinctProducts: Set<String> = []
+        cartManager.fetchProductsFromLocalDB { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let dbProducts):
+                products.append(contentsOf: dbProducts)
+                distinctProducts = Set(products.map { $0.id ?? "" })
+                self.updateCartBadge(with: distinctProducts.count)
+            case .failure(_):
+                break
+            }
+        }
+        return distinctProducts.count
+    }
+    
+    
+    private func updateCartBadge(with count: Int) {
+        let cartTabBarItem = tabBar.items?[1]
+        cartTabBarItem?.badgeValue = count > 0 ? "\(count)" : nil
+    }
+    
+    
+    // MARK: - @Actions
+    @objc private func setCartBadge() {
+        guard let cartCount = getCartCount() else { return }
+        updateCartBadge(with: cartCount)
     }
 }

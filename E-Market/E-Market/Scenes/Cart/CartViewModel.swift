@@ -8,10 +8,14 @@
 import Foundation
 
 final class CartViewModel {
-
+    
     // MARK: - Properties
     private var cartManager: CartHandler
-    private(set) var cartItems: [Product] = []
+    private(set) var cartItems: [Product] = [] {
+        didSet {
+            notifyCartUpdate()
+        }
+    }
     
     var totalPrice: Double {
         cartItems.reduce(0) { total, product in
@@ -43,15 +47,20 @@ final class CartViewModel {
         }
     }
     
+    private func notifyCartUpdate() {
+        let diffrentProducts = Set(cartItems.map { $0.id })
+        NotificationCenter.default.post(name: .changeCartDB, object: nil)
+    }
+    
     
     func increaseItemQuantity(product: Product) {
         if let index = cartItems.firstIndex(where: { $0.id == product.id }) {
             let newQuantity = (cartItems[index].quantity ?? 0) + 1
             cartItems[index].quantity = newQuantity
-
+            
             var updatedProduct = product
             updatedProduct.quantity = newQuantity
-
+            
             cartManager.updateProductFromLocalDB(product: updatedProduct) { [weak self] result in
                 guard let self else { return }
                 switch result {
@@ -63,7 +72,7 @@ final class CartViewModel {
             }
         }
     }
-
+    
     
     func decreaseItemQuantity(product: Product) {
         if let index = cartItems.firstIndex(where: { $0.id == product.id }) {
@@ -71,10 +80,10 @@ final class CartViewModel {
             if currentQuantity > 1 {
                 let newQuantity = currentQuantity - 1
                 cartItems[index].quantity = newQuantity
-
+                
                 var updatedProduct = product
                 updatedProduct.quantity = newQuantity
-
+                
                 cartManager.updateProductFromLocalDB(product: updatedProduct) { [weak self] result in
                     guard let self else { return }
                     switch result {
