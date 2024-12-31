@@ -48,7 +48,6 @@ final class CartViewModel {
     }
     
     private func notifyCartUpdate() {
-        let diffrentProducts = Set(cartItems.map { $0.id })
         NotificationCenter.default.post(name: .changeCartDB, object: nil)
     }
     

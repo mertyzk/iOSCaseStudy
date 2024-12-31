@@ -62,7 +62,6 @@ final class DetailsViewModel {
                         }
                     }
                 }
-                let diffrentProducts = Set(products.map { $0.id })
                 NotificationCenter.default.post(name: .changeCartDB, object: nil)
             case .failure(let error):
                 completion(error)
