@@ -12,7 +12,7 @@ final class HomeView: UIView {
     // MARK: - UI Elements
     var searchBar               = EMSearchBar(frame: .zero)
     private let filtersLabel    = EMLabel(font: AppTheme.regular(ofSize: .point18), textColor: AppTheme.Colors.systemBlack, text: Texts.filters)
-    let filterButton            = EMButton(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.selectFilt, width: .point158)
+    let filterButton            = EMButton(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.selectFilter, width: .point158)
     private lazy var stackView  = EMStackView(subViews: [filtersLabel, filterButton], axis: .horizontal, contentMode: .scaleAspectFill)
     
     lazy var collectionView: UICollectionView = {

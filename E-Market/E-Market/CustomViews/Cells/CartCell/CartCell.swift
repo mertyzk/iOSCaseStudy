@@ -14,13 +14,17 @@ final class CartCell: UITableViewCell {
     
     
     // MARK: - UI Elements
-    private let productNameLbl  = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
-    private let productPriceLbl = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
-    private let decreaseButton  = EMButton(font: AppTheme.bold(ofSize: 16), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.imageGrayBg, text: Texts.minusBtn, width: 50)
-    private let productQuantity = EMLabel(font: AppTheme.medium(ofSize: 16), textColor: AppTheme.Colors.systemWhite, text: "0", bgColor: AppTheme.Colors.navBlue, width: 57, textAlignment: .center)
-    private let increaseButton  = EMButton(font: AppTheme.bold(ofSize: 16), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.plusBtn, width: 50)
-    private lazy var leftStack  = EMStackView(subViews: [productNameLbl, productPriceLbl], axis: .vertical, contentMode: .scaleAspectFit)
-    private lazy var rightStck  = EMStackView(subViews: [decreaseButton, productQuantity, increaseButton], axis: .horizontal, contentMode: .scaleAspectFill)
+    private let productNameLabel  = EMLabel(font: AppTheme.medium(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
+    private let productPriceLabel = EMLabel(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
+    private let decreaseButton    = EMButton(font: AppTheme.bold(ofSize: .standartPadding), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.imageGrayBg, text: Texts.minusButton, width: .point50)
+    private let productQuantity   = EMLabel(font: AppTheme.medium(ofSize: .standartPadding), textColor: AppTheme.Colors.systemWhite, text: "0", bgColor: AppTheme.Colors.navBlue, width: .point57, textAlignment: .center)
+    private let increaseButton    = EMButton(font: AppTheme.bold(ofSize: .standartPadding), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.plusButton, width: .point50)
+    private lazy var leftStack    = EMStackView(subViews: [productNameLabel, productPriceLabel], axis: .vertical, contentMode: .scaleAspectFit)
+    private lazy var rightStck    = EMStackView(subViews: [decreaseButton, productQuantity, increaseButton], axis: .horizontal, contentMode: .scaleAspectFill)
+    
+    
+    private var increasePress: (() -> Void)?
+    private var decreasePress: (() -> Void)?
     
 
     // MARK: - Initializer
@@ -39,7 +43,7 @@ final class CartCell: UITableViewCell {
         [leftStack, rightStck].forEach { addSubview($0) }
         [leftStack, rightStck].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 10
+        let padding: CGFloat = .point10
         
         NSLayoutConstraint.activate([
             leftStack.topAnchor.constraint(equalTo: topAnchor, constant: padding),
@@ -50,15 +54,11 @@ final class CartCell: UITableViewCell {
             
         ])
     }
-    
-    
-    private var increasePress: (() -> Void)?
-    private var decreasePress: (() -> Void)?
-    
+
     
     func configureCell(with product: Product, quantity: Int, increaseItem: @escaping () -> Void, decreaseItem: @escaping () -> Void) {
-        productNameLbl.text = product.name
-        productPriceLbl.text = product.price
+        productNameLabel.text = product.name
+        productPriceLabel.text = product.price
         productQuantity.text = "\(quantity)"
         self.increasePress = increaseItem
         self.decreasePress = decreaseItem

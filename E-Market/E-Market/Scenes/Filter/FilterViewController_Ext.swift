@@ -72,7 +72,7 @@ extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == sView.sortTableView {
             guard let cell = tableView.cellForRow(at: indexPath) as? SortFilterCell else { return }
-            cell.circleImageView.image = Images.filldCircl
+            cell.circleImageView.image = Images.filledCircle
             viewModel.filterData.selectedSortOption = SortingOptions.allCases[indexPath.row]
         } else if tableView == sView.brandTableView {
             guard let cell = tableView.cellForRow(at: indexPath) as? BrandFilterCell else { return }
@@ -80,10 +80,10 @@ extension FilterViewController: UITableViewDelegate {
             let selectedBrand = viewModel.filter.brands[indexPath.row]
             
             if viewModel.filterData.selectedBrands.contains(selectedBrand) {
-                cell.checkBoxImageView.image = Images.emptyCheck
+                cell.checkBoxImageView.image = Images.emptyCheckBox
                 viewModel.filterData.selectedBrands.removeAll { $0 == selectedBrand }
             } else {
-                cell.checkBoxImageView.image = Images.filldCheck
+                cell.checkBoxImageView.image = Images.filledCheckBox
                 viewModel.filterData.selectedBrands.append(selectedBrand)
             }
         } else {
@@ -92,10 +92,10 @@ extension FilterViewController: UITableViewDelegate {
             let selectedModel = viewModel.filter.models[indexPath.row]
             
             if viewModel.filterData.selectedModels.contains(selectedModel) {
-                cell.checkBoxImageView.image = Images.emptyCheck
+                cell.checkBoxImageView.image = Images.emptyCheckBox
                 viewModel.filterData.selectedBrands.removeAll { $0 == selectedModel }
             } else {
-                cell.checkBoxImageView.image = Images.filldCheck
+                cell.checkBoxImageView.image = Images.filledCheckBox
                 viewModel.filterData.selectedModels.append(selectedModel)
             }
         }
@@ -105,7 +105,7 @@ extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if tableView == sView.sortTableView {
             guard let cell = tableView.cellForRow(at: indexPath) as? SortFilterCell else { return }
-            cell.circleImageView.image = Images.emptyCircl
+            cell.circleImageView.image = Images.emptyCircle
         }
     }
 }

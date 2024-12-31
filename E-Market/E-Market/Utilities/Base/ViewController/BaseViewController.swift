@@ -34,7 +34,7 @@ class BaseViewController: UIViewController {
         appearance.backgroundColor = AppTheme.Colors.navBlue
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.white,
-            .font: AppTheme.bold(ofSize: 24)
+            .font: AppTheme.bold(ofSize: .point24)
         ]
         
         navigationController?.navigationBar.standardAppearance = appearance
@@ -44,8 +44,8 @@ class BaseViewController: UIViewController {
         if navigationController?.viewControllers.count ?? 0 <= 1 {
             let titleLabel = UILabel()
             titleLabel.text = self.title?.isEmpty == false ? self.title : Texts.appTitle
-            titleLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-            titleLabel.font = AppTheme.bold(ofSize: 24)
+            titleLabel.textColor = AppTheme.Colors.systemWhite
+            titleLabel.font = AppTheme.bold(ofSize: .point24)
             titleLabel.sizeToFit()
             
             let leftBarButtonItem = UIBarButtonItem(customView: titleLabel)

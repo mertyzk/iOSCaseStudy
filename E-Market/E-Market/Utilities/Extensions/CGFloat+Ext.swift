@@ -19,4 +19,10 @@ extension CGFloat {
     static let point38: CGFloat = 38.0
     static let point22: CGFloat = 22.0
     static let point158: CGFloat = 158.0
+    static let point50: CGFloat = 50.0
+    static let point57: CGFloat = 57.0
+    static let point10: CGFloat = 10.0
+    static let point150: CGFloat = 150.0
+    static let pointMin: CGFloat = 0.1
+    static let point2: CGFloat = 2.0
 }

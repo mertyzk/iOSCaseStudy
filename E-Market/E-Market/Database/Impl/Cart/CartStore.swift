@@ -76,14 +76,14 @@ final class CartStore: CartHandler {
             if let result = try context.fetch(fetchRequest) as? [NSManagedObject] {
                 let products = result.map {
                     Product(
-                        createdAt: $0.value(forKey: ProductKey.brand.rawValue) as? String,
-                        name: $0.value(forKey: ProductKey.createdAt.rawValue) as? String,
-                        image: $0.value(forKey: ProductKey.description.rawValue) as? String,
-                        price: $0.value(forKey: ProductKey.id.rawValue) as? String,
-                        description: $0.value(forKey: ProductKey.image.rawValue) as? String,
+                        createdAt: $0.value(forKey: ProductKey.createdAt.rawValue) as? String,
+                        name: $0.value(forKey: ProductKey.name.rawValue) as? String,
+                        image: $0.value(forKey: ProductKey.image.rawValue) as? String,
+                        price: $0.value(forKey: ProductKey.price.rawValue) as? String,
+                        description: $0.value(forKey: ProductKey.description.rawValue) as? String,
                         model: $0.value(forKey: ProductKey.model.rawValue) as? String,
-                        brand: $0.value(forKey: ProductKey.name.rawValue) as? String,
-                        id: $0.value(forKey: ProductKey.price.rawValue) as? String,
+                        brand: $0.value(forKey: ProductKey.brand.rawValue) as? String,
+                        id: $0.value(forKey: ProductKey.id.rawValue) as? String,
                         quantity: $0.value(forKey: ProductKey.quantity.rawValue) as? Int
                     )
                 }

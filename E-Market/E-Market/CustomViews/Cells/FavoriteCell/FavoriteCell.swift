@@ -15,11 +15,11 @@ final class FavoriteCell: UICollectionViewCell {
     
     
     // MARK: - UI Elements
-    private let productIV = EMImageView(height: 150)
-    private let starBtn   = EMButton(width: 24, height: 24, image: Images.filledStar)
-    private let priceLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
-    private let titleLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.titleText)
-    private let cartBtn   = EMButton(font: AppTheme.regular(ofSize: 16), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.addToCart, cornerRadius: 4)
+    private let productImageView = EMImageView(height: .point150)
+    private let favoriteButton   = EMButton(width: .point24, height: .point24, image: Images.filledStar)
+    private let priceLabel       = EMLabel(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
+    private let titleLabel       = EMLabel(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, text: Texts.titleText)
+    private let addCartButton    = EMButton(font: AppTheme.regular(ofSize: .standartPadding), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.addToCart, cornerRadius: .cornerRadius)
     
     
     var onTapCell: ((Product) -> Void)?
@@ -43,41 +43,41 @@ final class FavoriteCell: UICollectionViewCell {
     // MARK: - Helper Functions
     private func configureCell() {
         layer.shadowColor = AppTheme.Colors.systemBlack.cgColor
-        layer.shadowOpacity = 0.1
-        layer.shadowRadius = 4
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.cornerRadius = 10
+        layer.shadowOpacity = Float(.pointMin)
+        layer.shadowRadius = .cornerRadius
+        layer.shadowOffset = CGSize(width: .zero, height: .point2)
+        layer.cornerRadius = .point10
         layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
         backgroundColor = .white
     }
     
     
     private func configureUI() {
-        [productIV, priceLbl, titleLbl, cartBtn].forEach { addSubview($0) }
-        productIV.addSubview(starBtn)
-        [productIV, starBtn, priceLbl, titleLbl, cartBtn].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [productImageView, priceLabel, titleLabel, addCartButton].forEach { addSubview($0) }
+        productImageView.addSubview(favoriteButton)
+        [productImageView, favoriteButton, priceLabel, titleLabel, addCartButton].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 10
+        let padding: CGFloat = .point10
         
         NSLayoutConstraint.activate([
-            productIV.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            productIV.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            productIV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            productImageView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            productImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            productImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             
-            starBtn.topAnchor.constraint(equalTo: productIV.topAnchor, constant: 6),
-            starBtn.trailingAnchor.constraint(equalTo: productIV.trailingAnchor, constant: -6),
+            favoriteButton.topAnchor.constraint(equalTo: productImageView.topAnchor, constant: 6),
+            favoriteButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: -6),
             
-            priceLbl.topAnchor.constraint(equalTo: productIV.bottomAnchor, constant: padding + 5),
-            priceLbl.leadingAnchor.constraint(equalTo: productIV.leadingAnchor),
+            priceLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: padding + 5),
+            priceLabel.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
             
-            titleLbl.topAnchor.constraint(equalTo: priceLbl.bottomAnchor, constant: padding + 5),
-            titleLbl.leadingAnchor.constraint(equalTo: priceLbl.leadingAnchor),
-            titleLbl.trailingAnchor.constraint(equalTo: productIV.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: padding + 5),
+            titleLabel.leadingAnchor.constraint(equalTo: priceLabel.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor),
             
-            cartBtn.topAnchor.constraint(equalTo: titleLbl.bottomAnchor, constant: padding + 5),
-            cartBtn.leadingAnchor.constraint(equalTo: productIV.leadingAnchor),
-            cartBtn.trailingAnchor.constraint(equalTo: productIV.trailingAnchor),
-            cartBtn.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
+            addCartButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: padding + 5),
+            addCartButton.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
+            addCartButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor),
+            addCartButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
     }
     
@@ -86,13 +86,13 @@ final class FavoriteCell: UICollectionViewCell {
         guard let price = product.price else { return }
         guard let imageURLString = product.image, let imageURL = URL(string: imageURLString) else { return }
         self.product = product
-        titleLbl.text = product.name
-        priceLbl.text = "\(price.trimDecimalZeros()) \(Texts.tlIconText)"
+        titleLabel.text = product.name
+        priceLabel.text = "\(price.trimDecimalZeros()) \(Texts.tlIconText)"
         
         NetworkManager.shared.downloadImage(from: imageURL) { [weak self] image in
             guard let self else { return }
             DispatchQueue.main.async {
-                self.productIV.image = image
+                self.productImageView.image = image
             }
         }
     }
@@ -100,10 +100,10 @@ final class FavoriteCell: UICollectionViewCell {
     
     private func configureActions() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
-        productIV.isUserInteractionEnabled = true
-        productIV.addGestureRecognizer(tapGesture)
-        starBtn.addTarget(self, action: #selector(starIconTapped), for: .touchUpInside)
-        cartBtn.addTarget(self, action: #selector(cartBtnTapped), for: .touchUpInside)
+        productImageView.isUserInteractionEnabled = true
+        productImageView.addGestureRecognizer(tapGesture)
+        favoriteButton.addTarget(self, action: #selector(starIconTapped), for: .touchUpInside)
+        addCartButton.addTarget(self, action: #selector(cartBtnTapped), for: .touchUpInside)
     }
     
     

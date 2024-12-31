@@ -14,8 +14,8 @@ final class BrandFilterCell: UITableViewCell {
     
     
     // MARK: - UI Elements
-    let checkBoxImageView  = EMImageView(image: Images.emptyCheck ,width: 24, height: 24)
-    private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
+    let checkBoxImageView  = EMImageView(image: Images.emptyCheckBox ,width: .point24, height: .point24)
+    private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
     
     
     // MARK: - Initializer
@@ -34,7 +34,7 @@ final class BrandFilterCell: UITableViewCell {
         [checkBoxImageView, descriptionLabel].forEach { addSubview($0) }
         [checkBoxImageView, descriptionLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 10
+        let padding: CGFloat = .point10
         
         NSLayoutConstraint.activate([
             checkBoxImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
@@ -49,6 +49,5 @@ final class BrandFilterCell: UITableViewCell {
     
     func configure(value: String) {
         descriptionLabel.text = value
-        //circleImageView.image = UIImage(systemName: isSelected ? SystemImages.filledCBox : SystemImages.checkBox)
     }
 }

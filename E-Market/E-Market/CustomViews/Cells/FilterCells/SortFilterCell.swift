@@ -14,8 +14,8 @@ final class SortFilterCell: UITableViewCell {
     
     
     // MARK: - UI Elements
-    let circleImageView  = EMImageView(image: Images.emptyCircl, width: 24, height: 24)
-    private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
+    let circleImageView  = EMImageView(image: Images.emptyCircle, width: .point24, height: .point24)
+    private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
     
     
     // MARK: - Initializer
@@ -34,7 +34,7 @@ final class SortFilterCell: UITableViewCell {
         [circleImageView, descriptionLabel].forEach { addSubview($0) }
         [circleImageView, descriptionLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 10
+        let padding: CGFloat = .point10
         
         NSLayoutConstraint.activate([
             circleImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
@@ -49,6 +49,5 @@ final class SortFilterCell: UITableViewCell {
     
     func configure(sortingOption: SortingOptions) {
         descriptionLabel.text = sortingOption.rawValue
-        //circleImageView.image = UIImage(systemName: isSelected ? SystemImages.filledCirc : SystemImages.circle)
     }
 }
