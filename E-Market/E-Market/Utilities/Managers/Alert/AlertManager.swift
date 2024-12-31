@@ -33,11 +33,24 @@ extension AlertManager {
                 alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: .default, handler: { _ in
                     completion()
                 }))
-            case .sure:
+            case .cancel:
                 alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: .default, handler: { _ in
                     completion()
                 }))
-                alertController.addAction(UIAlertAction(title: AlertType.sure.title, style: .destructive, handler: nil))
+                alertController.addAction(UIAlertAction(title: AlertType.cancel.title, style: .destructive, handler: nil))
+            case .goToCart:
+                alertController.addAction(UIAlertAction(title: AlertType.goToCart.title, style: .default, handler: { _ in
+                    completion()
+                }))
+                
+                alertController.addAction(UIAlertAction(title: AlertType.cancel.title, style: .destructive, handler: nil))
+                
+            case .approve:
+                alertController.addAction(UIAlertAction(title: AlertType.approve.title, style: .default, handler: { _ in
+                    completion()
+                }))
+                
+                alertController.addAction(UIAlertAction(title: AlertType.cancel.title, style: .destructive, handler: nil))
             }
             
             self.present(alertController, animated: true)

@@ -96,7 +96,9 @@ final class HomeViewModel {
     
     
     func addToCart(product: Product, completion: @escaping (DBErrors?) -> ()) {
-        cartManager.addToLocalDB(product: product) { result in
+        var newProduct = product
+        newProduct.quantity = 1
+        cartManager.addToLocalDB(product: newProduct) { result in
             switch result {
             case .success(_):
                 completion(nil)

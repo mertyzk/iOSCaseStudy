@@ -9,7 +9,9 @@ import Foundation
 
 enum AlertType {
     case confirm
-    case sure
+    case cancel
+    case goToCart
+    case approve
 }
 
 
@@ -18,8 +20,12 @@ extension AlertType {
         switch self {
         case .confirm:
             return "Confirm"
-        case .sure:
+        case .cancel:
             return "Cancel"
+        case .goToCart:
+            return "Go to your cart"
+        case .approve:
+            return "Approve"
         }
     }
 }

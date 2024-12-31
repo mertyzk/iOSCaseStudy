@@ -18,7 +18,7 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
         
         item.onTapCell = { [weak self] product in
             guard let self else { return }
-            let detailVM      = DetailsViewModel(product: product)
+            let detailVM      = DetailsViewModel(product: product, cartManager: CartStore())
             let destinationVC = DetailsViewController(viewModel: detailVM)
             navigationController?.pushViewController(destinationVC, animated: false)
         }
@@ -29,14 +29,14 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
             guard let self else { return }
             guard let product else { return }
             
-            self.showAlert(title: AlertConstants.areYouSure, message: AlertConstants.sureDescription, type: .sure) {
+            self.showAlert(title: AlertConstants.areYouSureTitle, message: AlertConstants.sureDescription, type: .cancel) {
                 self.viewModel.deleteProductFromLocalDB(for: product)
             }
         }
         
         item.onTapCell = { [weak self] product in
             guard let self else { return }
-            let detailVM      = DetailsViewModel(product: product)
+            let detailVM      = DetailsViewModel(product: product, cartManager: CartStore())
             let destinationVC = DetailsViewController(viewModel: detailVM)
             navigationController?.pushViewController(destinationVC, animated: false)
         }

@@ -55,7 +55,7 @@ final class FavoritesViewController: BaseViewController, AlertManager {
         viewModel.favoritesChanged = { [weak self] error in
             guard let self else { return }
             guard error == nil else {
-                self.showAlert(title: AlertConstants.errorTitle, message: error!.rawValue, type: .confirm, completion: {})
+                self.showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm, completion: {})
                 return
             }
             

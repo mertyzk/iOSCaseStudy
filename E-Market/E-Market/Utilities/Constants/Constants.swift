@@ -42,6 +42,7 @@ enum Texts {
     static let addToCart       = "Add to Cart"
     static let price           = "Price"
     static let total           = "Total"
+    static let totalCart       = "Total: "
     static let complete        = "Complete"
     static let priceText       = "15.000 ₺"
     static let titleText       = "iPhone 13 Pro Max 256Gb"
@@ -54,6 +55,7 @@ enum Texts {
     static let sortHeader      = "Sort By"
     static let entity404       = "Entity not found"
     static let noDataFound     = "Sorry, no data found to show."
+    static let purchaseError   = "Something went wrong at the moment of purchase."
 }
 
 

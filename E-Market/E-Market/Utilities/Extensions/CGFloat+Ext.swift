@@ -25,4 +25,5 @@ extension CGFloat {
     static let point150: CGFloat = 150.0
     static let pointMin: CGFloat = 0.1
     static let point2: CGFloat = 2.0
+    static let heightForRowAt: CGFloat = 66
 }

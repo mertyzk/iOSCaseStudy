@@ -63,7 +63,7 @@ final class HomeViewController: BaseViewController, AlertManager {
             case .success:
                 self.sView.collectionView.reloadAtMainThread()
             case .failure(let error):
-                self.showAlert(title: AlertConstants.errorTitle, message: error.rawValue, type: .confirm) { }
+                self.showAlert(title: AlertConstants.generalErrorTitle, message: error.rawValue, type: .confirm) { }
             }
         }
     }

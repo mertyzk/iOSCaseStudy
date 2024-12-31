@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailsViewController: BaseViewController {
+final class DetailsViewController: BaseViewController, AlertManager {
     // MARK: - Properties
     private let sView = DetailsView()
     var viewModel: DetailsViewModel
@@ -30,6 +30,7 @@ final class DetailsViewController: BaseViewController {
         title = viewModel.product.name
         configureBarButton()
         configureUIElements()
+        configureActions()
     }
     
     
@@ -53,8 +54,29 @@ final class DetailsViewController: BaseViewController {
     }
     
     
+    private func configureActions() {
+        sView.cartButton.addTarget(self, action: #selector(cartButtonTapped), for: .touchUpInside)
+    }
+    
+    
     // MARK: - @Actions
-      @objc private func leftBarButtonItemTapped() {
-          navigationController?.popViewController(animated: true)
-      }
+    @objc private func leftBarButtonItemTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @objc private func cartButtonTapped() {
+        viewModel.addToCart(product: viewModel.product) { [weak self] error in
+            guard let self else { return }
+            guard error == nil else {
+                self.showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm) {}
+                return
+            }
+            self.showAlert(title: AlertConstants.successCartTitle, message: AlertConstants.successCartDescription, type: .goToCart) {
+                let cartViewModel = CartViewModel(cartManager: self.viewModel.cartManager)
+                let cartViewController = CartViewController(viewModel: cartViewModel)
+                self.navigationController?.pushViewController(cartViewController, animated: false)
+            }
+        }
+    }
 }

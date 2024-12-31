@@ -17,9 +17,9 @@ final class CartView: UIView {
         return tv
     }()
     
-    private let totalTextLabel = EMLabel(font: AppTheme.regular(ofSize: .point18), textColor: AppTheme.Colors.navBlue, text: Texts.total)
-    let totalPriceLabel        = EMLabel(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemBlack, text: Texts.total)
-    let completeButton         = EMButton(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.complete, width: .point182, cornerRadius: .cornerRadius)
+    private let totalTextLabel       = EMLabel(font: AppTheme.regular(ofSize: .point18), textColor: AppTheme.Colors.navBlue, text: Texts.total)
+    let totalPriceLabel              = EMLabel(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemBlack, text: Texts.total)
+    let completeButton               = EMButton(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.complete, width: .point182, cornerRadius: .cornerRadius)
     private lazy var totalStackView  = EMStackView(subViews: [totalTextLabel, totalPriceLabel], axis: .vertical, contentMode: .scaleAspectFill)
 
     

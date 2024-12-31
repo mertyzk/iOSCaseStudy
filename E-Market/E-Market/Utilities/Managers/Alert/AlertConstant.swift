@@ -8,13 +8,18 @@
 import Foundation
 
 enum AlertConstants {
-    static let errorTitle      = "Something went wrong!"
-    static let successFavorite = "Added to favorites!"
-    static let succesFavDesc   = "Favorite add operation completed successfully."
+    static let generalErrorTitle = "Something went wrong!"
+    static let successFavoriteTitle = "Added to favorites!"
+    static let succesFavoriteDescription = "Favorite add operation completed successfully."
     static let alreadyFavorite = "Already in the favorites"
-    static let alreadyFavDesc  = "The product you are trying to add to favorites already exists on the favorites page"
-    static let areYouSure      = "Are you sure?"
+    static let alreadyFavoriteDescription = "The product you are trying to add to favorites already exists on the favorites page"
+    static let areYouSureTitle = "Are you sure?"
     static let sureDescription = "Do you want to delete favorite product?"
-    static let successCart     = "Added to your basket!"
-    static let successDescrip  = "The product added to your basket successfully."
+    static let successCartTitle = "Added to your cart!"
+    static let successCartDescription = "The product added to your cart successfully."
+    static let errorCartDescription = "Product could not be added to your cart"
+    static let doYouApproveTheCart = "Do you approve the cart?"
+    static let chargedToYourCreditCart = "The amount to be charged to your credit card: "
+    static let successPurchaseTitle = "Purchase success!"
+    static let successPurchaseDescription = "Your purchase was successful!"
 }

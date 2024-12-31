@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CartViewController: BaseViewController {
+final class CartViewController: BaseViewController, AlertManager {
     
     // MARK: - Properties
     var viewModel: CartViewModel
@@ -27,7 +27,14 @@ final class CartViewController: BaseViewController {
     override func loadView() {
         view = sView
         configureTableView()
-        viewModel.getTest()
+        bindingData()
+        configureActions()
+    }
+    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getCartItems()
     }
     
     
@@ -36,5 +43,47 @@ final class CartViewController: BaseViewController {
         sView.tableView.delegate      = self
         sView.tableView.dataSource    = self
         sView.tableView.register(CartCell.self, forCellReuseIdentifier: CartCell.reuseID)
+    }
+    
+    
+    private func getCartItems() {
+        viewModel.getCartsFromDB()
+    }
+    
+    
+    private func bindingData() {
+        viewModel.onChangeCart = { [weak self] error in
+            guard let self else { return }
+            guard error == nil else {
+                showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm) { }
+                return
+            }
+            sView.totalPriceLabel.text = "\(Texts.totalCart) \(viewModel.totalPrice) \(Texts.tlIconText)"
+            sView.tableView.reloadAtMainThread()
+        }
+    }
+    
+    
+    private func configureActions() {
+        sView.completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    // MARK: - @Actions
+    @objc private func completeButtonTapped() {
+        showAlert(title: AlertConstants.doYouApproveTheCart, message: "\(AlertConstants.chargedToYourCreditCart)\(viewModel.totalPrice)\(Texts.tlIconText)", type: .approve) { [weak self] in
+            guard let self else { return }
+            viewModel.deleteAllProducts { error in
+                guard error == nil else {
+                    self.showAlert(title: AlertConstants.generalErrorTitle, message: error!, type: .confirm) { }
+                    return
+                }
+                self.showAlert(title: AlertConstants.successPurchaseTitle, message: AlertConstants.successPurchaseDescription, type: .confirm) {
+                        let homeViewModel = HomeViewModel(favoriteManager: FavoriteStore(), cartManager: CartStore())
+                        let homeViewController = HomeViewController(viewModel: homeViewModel)
+                        self.navigationController?.pushViewController(homeViewController, animated: false)
+                }
+            }
+        }
     }
 }
