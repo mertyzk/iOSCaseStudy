@@ -27,8 +27,6 @@ final class FilterViewModel {
         self.filter = filter
         filteredBrands = filter.brands
         filteredModels = filter.models
-        print("xxxxxxxxxxx DEBUG: \(filteredBrands.count)")
-        print("xxxxxxxxxxx DEBUG: \(filteredModels.count)")
     }
     
     
