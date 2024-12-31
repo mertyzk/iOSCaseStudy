@@ -58,6 +58,11 @@ final class CartViewController: BaseViewController, AlertManager {
                 showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm) { }
                 return
             }
+            if viewModel.cartItems.isEmpty {
+                self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
+            } else {
+                self.removeEmptyStateView(from: self.view)
+            }
             sView.totalPriceLabel.text = "\(Texts.totalCart) \(viewModel.totalPrice) \(Texts.tlIconText)"
             sView.tableView.reloadAtMainThread()
         }

@@ -17,14 +17,14 @@ final class FilterView: UIView {
         return tv
     }()
     
-    let brandSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .brandSearchBar)
+    let brandSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .brandSearchBar, placeHolderText: Texts.brandsHeader)
     
     lazy var brandTableView: UITableView = {
         let tv = tableViewCreator()
         return tv
     }()
     
-    let modelSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .modelSearchBar)
+    let modelSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .modelSearchBar, placeHolderText: Texts.modelsHeader)
     
     lazy var modelTableView: UITableView = {
         let tv = tableViewCreator()

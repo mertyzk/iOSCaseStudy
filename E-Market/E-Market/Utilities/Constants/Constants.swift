@@ -56,6 +56,8 @@ enum Texts {
     static let entity404       = "Entity not found"
     static let noDataFound     = "Sorry, no data found to show."
     static let purchaseError   = "Something went wrong at the moment of purchase."
+    static let brandsHeader    = "Brands"
+    static let modelsHeader    = "Models"
 }
 
 
