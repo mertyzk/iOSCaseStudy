@@ -10,9 +10,9 @@ import UIKit
 final class EMSearchBar: UISearchBar {
     
     // MARK: - Initializer
-    override init(frame: CGRect) {
+    init(frame: CGRect, accessibilityIdentifier: SearchbarAccessibility? = nil) {
         super.init(frame: .zero)
-        configure()
+        configure(accessibilityIdentifier: accessibilityIdentifier)
         configureToolBar()
     }
     
@@ -22,19 +22,24 @@ final class EMSearchBar: UISearchBar {
     
     
     // MARK: - Helper Functions
-    private func configure() {
+    private func configure(accessibilityIdentifier: SearchbarAccessibility? = nil) {
         translatesAutoresizingMaskIntoConstraints = false
         searchBarStyle = .minimal
         searchTextField.keyboardAppearance = .default
         spellCheckingType = .no
         autocorrectionType = .no
         placeholder = Texts.search
+        if let identifier = accessibilityIdentifier {
+            self.accessibilityIdentifier = identifier.rawValue
+        }
     }
     
     
     private func configureToolBar() {
         let toolbar: UIToolbar = UIToolbar()
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.sizeToFit()
+
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
         

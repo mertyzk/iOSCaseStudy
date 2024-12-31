@@ -7,15 +7,15 @@
 
 import UIKit
 
-final class FilterVC: UIViewController {
+final class FilterViewController: UIViewController {
 
     // MARK: - Properties
     let sView = FilterView()
-    var viewModel: FilterVM
+    var viewModel: FilterViewModel
     
     
     // MARK: - Initializer
-    init(viewModel: FilterVM) {
+    init(viewModel: FilterViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -30,7 +30,8 @@ final class FilterVC: UIViewController {
         view = sView
         title = Texts.filterText
         configureBarButton()
-        configureTableViews()
+        configureActions()
+        configureTableViewsAndSearchBars()
     }
     
     
@@ -41,21 +42,36 @@ final class FilterVC: UIViewController {
     }
     
     
-    private func configureTableViews() {
+    private func configureActions() {
+        sView.applyFilterButton.addTarget(self, action: #selector(applyFilterButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    private func configureTableViewsAndSearchBars() {
         sView.sortTableView.delegate = self
         sView.sortTableView.dataSource = self
         sView.sortTableView.register(SortFilterCell.self, forCellReuseIdentifier: SortFilterCell.reuseID)
-        sView.createdTableViews.forEach { tv in
-            tv.delegate = self
-            tv.dataSource = self
-            tv.register(FilterSelectCell.self, forCellReuseIdentifier: FilterSelectCell.reuseID)
-            tv.register(FiltersSectionHeader.self, forHeaderFooterViewReuseIdentifier: FiltersSectionHeader.reuseID)
-        }
+        
+        sView.brandTableView.delegate = self
+        sView.brandTableView.dataSource = self
+        sView.brandSearchBar.delegate = self
+        sView.brandTableView.register(BrandFilterCell.self, forCellReuseIdentifier: BrandFilterCell.reuseID)
+        
+        sView.modelTableView.delegate = self
+        sView.modelTableView.dataSource = self
+        sView.modelSearchBar.delegate = self
+        sView.modelTableView.register(ModelFilterCell.self, forCellReuseIdentifier: ModelFilterCell.reuseID)
     }
     
     
     // MARK: - @Actions
     @objc private func closeButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    
+    @objc private func applyFilterButtonTapped() {
+        NotificationCenter.default.post(name: .didFilter, object: viewModel.filterData)
         dismiss(animated: true)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ProfileVM {
+final class ProfileViewModel {
 
 
 }

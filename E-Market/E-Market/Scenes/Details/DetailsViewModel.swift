@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class DetailsVM {
+final class DetailsViewModel {
     
     // MARK: - Properties
     var product: Product

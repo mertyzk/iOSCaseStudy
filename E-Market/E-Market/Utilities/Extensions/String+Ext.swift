@@ -25,4 +25,9 @@ extension String {
         }
         return editedString.joined(separator: " ")
     }
+    
+    
+    func toDouble() -> Double {
+         return Double(self) ?? 0.0
+     }
 }

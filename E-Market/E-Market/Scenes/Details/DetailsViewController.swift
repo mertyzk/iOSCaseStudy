@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class DetailsVC: BaseVC {
+final class DetailsViewController: BaseViewController {
     // MARK: - Properties
     private let sView = DetailsView()
-    var viewModel: DetailsVM
+    var viewModel: DetailsViewModel
     
     
     // MARK: - Initializer
-    init(viewModel: DetailsVM) {
+    init(viewModel: DetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -44,12 +44,12 @@ final class DetailsVC: BaseVC {
         viewModel.setDetailImage { [weak self] img in
             guard let self else { return }
             DispatchQueue.main.async {
-                self.sView.detailIV.image = img
+                self.sView.detailImageView.image = img
             }
         }
-        sView.titleLbl.text = viewModel.product.name
-        sView.descLbl.text = viewModel.product.description
-        sView.priceVal.text = viewModel.product.price
+        sView.titleLabel.text = viewModel.product.name
+        sView.descriptionLabel.text = viewModel.product.description
+        sView.priceValueLabel.text = viewModel.product.price
     }
     
     

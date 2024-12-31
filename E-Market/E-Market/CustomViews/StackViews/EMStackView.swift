@@ -20,9 +20,9 @@ final class EMStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(subViews: [UIView], axis: NSLayoutConstraint.Axis, contentMode: UIView.ContentMode, spacing: CGFloat? = nil) {
+    convenience init(subViews: [UIView], axis: NSLayoutConstraint.Axis, contentMode: UIView.ContentMode? = nil, spacing: CGFloat? = nil, distribution: UIStackView.Distribution? = nil) {
         self.init(frame: .zero)
-        set(subViews: subViews, axis: axis, contentMode: contentMode, spacing: spacing)
+        set(subViews: subViews, axis: axis, contentMode: contentMode, spacing: spacing, distribution: distribution)
     }
     
     
@@ -32,13 +32,21 @@ final class EMStackView: UIStackView {
     }
     
     
-    private func set(subViews: [UIView], axis: NSLayoutConstraint.Axis, contentMode: UIView.ContentMode, spacing: CGFloat? = nil) {
+    private func set(subViews: [UIView], axis: NSLayoutConstraint.Axis, contentMode: UIView.ContentMode? = nil, spacing: CGFloat? = nil, distribution: UIStackView.Distribution? = nil) {
         self.arrangedSubviews.forEach { $0.removeFromSuperview() }
         subViews.forEach { addArrangedSubview($0) }
-        self.axis           = axis
-        self.contentMode    = contentMode
-        if let spacing      = spacing {
-            self.spacing    = spacing
+        self.axis             = axis
+         
+        if let contentMode    = contentMode {
+            self.contentMode  = contentMode
+        }
+         
+        if let spacing        = spacing {
+            self.spacing      = spacing
+        }
+        
+        if let distribution   = distribution {
+            self.distribution = distribution
         }
     }
 }

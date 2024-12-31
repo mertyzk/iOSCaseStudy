@@ -13,26 +13,28 @@ final class FilterView: UIView {
     lazy var sortTableView: UITableView = {
         let tv = tableViewCreator()
         tv.isScrollEnabled = false
+        tv.allowsMultipleSelection = false
         return tv
     }()
     
-    lazy var seperatorLine: UIView = {
-        let line = seperatorCreator()
-        return line
+    let brandSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .brandSearchBar)
+    
+    lazy var brandTableView: UITableView = {
+        let tv = tableViewCreator()
+        return tv
     }()
     
-    lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 1
-        stackView.backgroundColor = .white.withAlphaComponent(0.5)
-        return stackView
+    let modelSearchBar = EMSearchBar(frame: .zero, accessibilityIdentifier: .modelSearchBar)
+    
+    lazy var modelTableView: UITableView = {
+        let tv = tableViewCreator()
+        return tv
     }()
     
-    let applyFilt = EMButton(font: AppTheme.bold(ofSize: 22), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.filterText, height: 38, cornerRadius: 4)
-    
-    var createdTableViews: [UITableView] = []
+    lazy var brandStackView = EMStackView(subViews: [brandSearchBar, brandTableView], axis: .vertical, distribution: .fill)
+    lazy var modelStackView = EMStackView(subViews: [modelSearchBar, modelTableView], axis: .vertical, distribution: .fill)
+    lazy var stackView = EMStackView(subViews: [sortTableView, brandStackView, modelStackView], axis: .vertical, spacing: 1, distribution: .fillEqually)
+    let applyFilterButton = EMButton(font: AppTheme.bold(ofSize: .point22), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.filterText, height: .point38, cornerRadius: .cornerRadius)
     
     
     // MARK: - Initializer
@@ -40,7 +42,6 @@ final class FilterView: UIView {
         super.init(frame: frame)
         backgroundColor = .white
         configureUI()
-        configureDynamicTableView()
     }
     
     required init?(coder: NSCoder) {
@@ -50,64 +51,34 @@ final class FilterView: UIView {
     
     // MARK: - Helper Functions
     private func configureUI() {
-        [sortTableView, seperatorLine, stackView, applyFilt].forEach { addSubview($0) }
-        [stackView, applyFilt].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [stackView, applyFilterButton].forEach { addSubview($0) }
+        [stackView, applyFilterButton].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 16
+        let padding: CGFloat = .standartPadding
         
         NSLayoutConstraint.activate([
-            applyFilt.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding),
-            applyFilt.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            applyFilt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            applyFilterButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            applyFilterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            applyFilterButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding),
             
-            sortTableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: padding),
-            sortTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            sortTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            sortTableView.heightAnchor.constraint(equalToConstant: 179),
-            
-            seperatorLine.topAnchor.constraint(equalTo: sortTableView.bottomAnchor, constant: padding),
-            seperatorLine.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            seperatorLine.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            seperatorLine.heightAnchor.constraint(equalToConstant: 1),
-            
-            stackView.topAnchor.constraint(equalTo: seperatorLine.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            
-            applyFilt.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: padding),
-            applyFilt.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            applyFilt.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            applyFilt.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding)
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: applyFilterButton.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: applyFilterButton.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: applyFilterButton.topAnchor, constant: -padding)
         ])
     }
     
     
     private func tableViewCreator() -> UITableView {
-        let tv = UITableView(frame: .zero, style: .grouped)
+        let tv = UITableView()
         tv.backgroundColor = AppTheme.Colors.systemWhite
+        tv.contentInset = .zero
+        tv.contentInsetAdjustmentBehavior = .never
         tv.alwaysBounceVertical = false
         tv.bounces = false
         tv.showsVerticalScrollIndicator = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.separatorStyle = .none
         return tv
-    }
-    
-    
-    private func seperatorCreator() -> UIView {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = AppTheme.Colors.systemBlack.withAlphaComponent(0.5)
-        return v
-    }
-    
-    
-    private func configureDynamicTableView() {
-        for _ in 0..<2 {
-            _      = seperatorCreator()
-            let tv = tableViewCreator()
-            createdTableViews.append(tv)
-            stackView.addArrangedSubview(tv)
-        }
     }
 }

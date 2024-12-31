@@ -17,10 +17,10 @@ final class CartView: UIView {
         return tv
     }()
     
-    private let totalTextLabel = EMLabel(font: AppTheme.regular(ofSize: 18), textColor: AppTheme.Colors.navBlue, text: Texts.total)
-    let totalPriceLabel        = EMLabel(font: AppTheme.bold(ofSize: 18), textColor: AppTheme.Colors.systemBlack, text: "TL")
-    let completeButton         = EMButton(font: AppTheme.bold(ofSize: 18), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.complete, width: 182, cornerRadius: 4)
-    private lazy var totalStV  = EMStackView(subViews: [totalTextLabel, totalPriceLabel], axis: .vertical, contentMode: .scaleAspectFill)
+    private let totalTextLabel = EMLabel(font: AppTheme.regular(ofSize: .point18), textColor: AppTheme.Colors.navBlue, text: Texts.total)
+    let totalPriceLabel        = EMLabel(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemBlack, text: Texts.total)
+    let completeButton         = EMButton(font: AppTheme.bold(ofSize: .point18), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.complete, width: .point182, cornerRadius: .cornerRadius)
+    private lazy var totalStackView  = EMStackView(subViews: [totalTextLabel, totalPriceLabel], axis: .vertical, contentMode: .scaleAspectFill)
 
     
     // MARK: - Initializer
@@ -36,22 +36,22 @@ final class CartView: UIView {
     
     // MARK: - Helper Functions
     private func configureUI() {
-        [totalStV, completeButton, tableView].forEach { addSubview($0) }
-        [totalStV, completeButton, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [totalStackView, completeButton, tableView].forEach { addSubview($0) }
+        [totalStackView, completeButton, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 16
+        let padding: CGFloat = .standartPadding
 
         NSLayoutConstraint.activate([
-            totalStV.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding),
-            totalStV.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            totalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding),
+            totalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             
-            completeButton.bottomAnchor.constraint(equalTo: totalStV.bottomAnchor),
+            completeButton.bottomAnchor.constraint(equalTo: totalStackView.bottomAnchor),
             completeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             
             tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: padding),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            tableView.bottomAnchor.constraint(equalTo: totalStV.topAnchor, constant: -padding)
+            tableView.bottomAnchor.constraint(equalTo: totalStackView.topAnchor, constant: -padding)
         ])
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BaseVC: UIViewController {
+class BaseViewController: UIViewController {
     // MARK: - Properties
     private var activityIndicator: UIActivityIndicatorView!
     

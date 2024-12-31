@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class CartVC: BaseVC {
+final class CartViewController: BaseViewController {
     
     // MARK: - Properties
-    var viewModel: CartVM
+    var viewModel: CartViewModel
     private let sView = CartView()
     
-    init(viewModel: CartVM) {
+    init(viewModel: CartViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class FavoritesVM {
+final class FavoritesViewModel {
     
     // MARK: - Properties
     private var favoriteHandler: FavoriteHandler

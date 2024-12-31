@@ -1,20 +1,20 @@
 //
-//  SortFilterCell.swift
+//  ModelFilterCell.swift
 //  E-Market
 //
-//  Created by Macbook Air on 29.12.2024.
+//  Created by Macbook Air on 31.12.2024.
 //
 
 import UIKit
 
-final class SortFilterCell: UITableViewCell {
+final class ModelFilterCell: UITableViewCell {
     
     // MARK: - Properties
-    static let reuseID    = "SortFilterCell"
+    static let reuseID    = "ModelFilterCell"
     
     
     // MARK: - UI Elements
-    let circleImageView  = EMImageView(image: Images.emptyCircl, width: 24, height: 24)
+    let checkBoxImageView  = EMImageView(image: Images.emptyCheck ,width: 24, height: 24)
     private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
     
     
@@ -31,24 +31,24 @@ final class SortFilterCell: UITableViewCell {
     
     // MARK: - Helper Functions
     private func configureUI() {
-        [circleImageView, descriptionLabel].forEach { addSubview($0) }
-        [circleImageView, descriptionLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [checkBoxImageView, descriptionLabel].forEach { addSubview($0) }
+        [checkBoxImageView, descriptionLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         let padding: CGFloat = 10
         
         NSLayoutConstraint.activate([
-            circleImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            circleImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            checkBoxImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            checkBoxImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            descriptionLabel.leadingAnchor.constraint(equalTo: circleImageView.trailingAnchor, constant: padding),
+            descriptionLabel.leadingAnchor.constraint(equalTo: checkBoxImageView.trailingAnchor, constant: padding),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             descriptionLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
     
     
-    func configure(sortingOption: SortingOptions) {
-        descriptionLabel.text = sortingOption.rawValue
-        //circleImageView.image = UIImage(systemName: isSelected ? SystemImages.filledCirc : SystemImages.circle)
+    func configure(value: String) {
+        descriptionLabel.text = value
+        //circleImageView.image = UIImage(systemName: isSelected ? SystemImages.filledCBox : SystemImages.checkBox)
     }
 }

@@ -27,6 +27,10 @@ enum Images {
     static let basketIcon = UIImage(named: "basketIcon")?.withRenderingMode(.alwaysOriginal)
     static let starIcon   = UIImage(named: "starIcon")?.withRenderingMode(.alwaysOriginal)
     static let personIcon = UIImage(named: "personIcon")?.withRenderingMode(.alwaysOriginal)
+    static let emptyCheck = UIImage(named: "emptyCheckBox")?.withRenderingMode(.alwaysOriginal)
+    static let filldCheck = UIImage(named: "filledCheckBox")?.withRenderingMode(.alwaysOriginal)
+    static let emptyCircl = UIImage(named: "emptyCircle")?.withRenderingMode(.alwaysOriginal)
+    static let filldCircl = UIImage(named: "filledCircle")?.withRenderingMode(.alwaysOriginal)
 }
 
 
@@ -54,9 +58,5 @@ enum Texts {
 
 // MARK: - SystemImages
 enum SystemImages {
-    static let circle     = "circle"
-    static let filledCirc = "circle.inset.filled"
-    static let checkBox   = "checkmark.square"
-    static let filledCBox = "checkmark.square.fill"
     static let magnifyingglass = "magnifyingglass"
 }

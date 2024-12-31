@@ -7,19 +7,20 @@
 
 import UIKit
 
-final class HomeVC: BaseVC, AlertManager {
+final class HomeViewController: BaseViewController, AlertManager {
     
     // MARK: - Properties
     let sView = HomeView()
-    var viewModel: HomeVM
+    var viewModel: HomeViewModel
     
     
     // MARK: - DeInitializer
     deinit {
         NotificationCenter.default.removeObserver(self, name: .favUpdated, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .didFilter, object: nil)
     }
     
-    init(viewModel: HomeVM) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,7 +33,7 @@ final class HomeVC: BaseVC, AlertManager {
     // MARK: - Lifecycle
     override func loadView() {
         view = sView
-        configureCollectionView()
+        configureCollectionViewAndSearchBar()
         configureData()
         configureActions()
         configureNotificationObservers()
@@ -40,15 +41,17 @@ final class HomeVC: BaseVC, AlertManager {
     
 
     // MARK: - Helper Functions
-    private func configureCollectionView() {
+    private func configureCollectionViewAndSearchBar() {
         sView.collectionView.delegate = self
         sView.collectionView.dataSource = self
+        sView.searchBar.delegate = self
         sView.collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.reuseID)
     }
     
     
     private func configureNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: .favUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(makeFilter(_:)), name: .didFilter, object: nil)
     }
     
     
@@ -73,13 +76,24 @@ final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - @Actions
     @objc private func filterButtonAction() {
-        let filterVM = FilterVM()
-        let nav = UINavigationController(rootViewController: FilterVC(viewModel: filterVM))
+        let filterOp = viewModel.configureFilterOptions()
+        let filterVM = FilterViewModel(filter: filterOp)
+        let nav = UINavigationController(rootViewController: FilterViewController(viewModel: filterVM))
         navigationController?.show(nav, sender: nil)
     }
     
     
     @objc private func favoritesUpdated() {
         viewModel.fetchProducts()
+    }
+    
+    
+    @objc private func makeFilter(_ notification: Notification) {
+        if let selectedFilters = notification.object as? FilterData {
+            viewModel.makeFilter(selectedFilters: selectedFilters) { [weak self] in
+                guard let self else { return }
+                self.sView.collectionView.reloadAtMainThread()
+            }
+        }
     }
 }

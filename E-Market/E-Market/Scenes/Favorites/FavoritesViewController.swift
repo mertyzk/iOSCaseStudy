@@ -8,14 +8,14 @@
 import UIKit
 import CoreData
 
-final class FavoritesVC: BaseVC, AlertManager {
+final class FavoritesViewController: BaseViewController, AlertManager {
     // MARK: - Properties
     private let sView = FavoritesView()
-    var viewModel: FavoritesVM
+    var viewModel: FavoritesViewModel
     
     
     // MARK: - Initializer
-    init(viewModel: FavoritesVM) {
+    init(viewModel: FavoritesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

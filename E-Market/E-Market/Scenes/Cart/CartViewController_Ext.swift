@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension CartVC: UITableViewDataSource, UITableViewDelegate {
+extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         5
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension FavoritesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.favoriteProducts.count
     }
@@ -18,8 +18,8 @@ extension FavoritesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIC
         
         item.onTapCell = { [weak self] product in
             guard let self else { return }
-            let detailVM      = DetailsVM(product: product)
-            let destinationVC = DetailsVC(viewModel: detailVM)
+            let detailVM      = DetailsViewModel(product: product)
+            let destinationVC = DetailsViewController(viewModel: detailVM)
             navigationController?.pushViewController(destinationVC, animated: false)
         }
         
@@ -36,8 +36,8 @@ extension FavoritesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIC
         
         item.onTapCell = { [weak self] product in
             guard let self else { return }
-            let detailVM      = DetailsVM(product: product)
-            let destinationVC = DetailsVC(viewModel: detailVM)
+            let detailVM      = DetailsViewModel(product: product)
+            let destinationVC = DetailsViewController(viewModel: detailVM)
             navigationController?.pushViewController(destinationVC, animated: false)
         }
         

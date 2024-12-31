@@ -10,10 +10,10 @@ import UIKit
 final class HomeView: UIView {
     
     // MARK: - UI Elements
-    var searchBar            = EMSearchBar(frame: .zero)
-    private let filtersLabel = EMLabel(font: AppTheme.regular(ofSize: 18), textColor: AppTheme.Colors.systemBlack, text: Texts.filters)
-    let filterButton         = EMButton(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.selectFilt, width: 158)
-    private lazy var stackV  = EMStackView(subViews: [filtersLabel, filterButton], axis: .horizontal, contentMode: .scaleAspectFill)
+    var searchBar               = EMSearchBar(frame: .zero)
+    private let filtersLabel    = EMLabel(font: AppTheme.regular(ofSize: .point18), textColor: AppTheme.Colors.systemBlack, text: Texts.filters)
+    let filterButton            = EMButton(font: AppTheme.regular(ofSize: .point14), textColor: AppTheme.Colors.systemBlack, bgColor: AppTheme.Colors.filterGray, text: Texts.selectFilt, width: .point158)
+    private lazy var stackView  = EMStackView(subViews: [filtersLabel, filterButton], axis: .horizontal, contentMode: .scaleAspectFill)
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createColumnFlowLayout(in: self))
@@ -36,21 +36,21 @@ final class HomeView: UIView {
     
     // MARK: - Helper Functions
     private func configureUI() {
-        [searchBar, stackV, collectionView].forEach { addSubview($0) }
-        [searchBar, stackV, collectionView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [searchBar, stackView, collectionView].forEach { addSubview($0) }
+        [searchBar, stackView, collectionView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 16
+        let padding: CGFloat = .standartPadding
 
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 14),
+            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: .point14),
             searchBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding - 2),
             searchBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding + 2),
             
-            stackV.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: padding),
-            stackV.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
-            stackV.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: stackV.bottomAnchor, constant: padding + 8),
+            collectionView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: padding + 8),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),

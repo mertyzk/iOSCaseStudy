@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfItems
@@ -20,8 +20,8 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         
         item.onTapCell = { [weak self] product in
             guard let self else { return }
-            let detailVM      = DetailsVM(product: product)
-            let destinationVC = DetailsVC(viewModel: detailVM)
+            let detailVM      = DetailsViewModel(product: product)
+            let destinationVC = DetailsViewController(viewModel: detailVM)
             navigationController?.pushViewController(destinationVC, animated: false)
         }
         
@@ -71,6 +71,17 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollec
         let frameHeight = scrollView.frame.size.height
         if offsetY >= contentHeight - frameHeight - 10 {
             viewModel.fetchProducts()
+        }
+    }
+}
+
+
+// MARK: - UISearchBarDelegate
+extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterContentForSearchText(searchText) { [weak self] in
+            guard let self else { return }
+            self.sView.collectionView.reloadAtMainThread()
         }
     }
 }

@@ -34,7 +34,7 @@ final class FavoritesView: UIView {
         [collectionView].forEach { addSubview($0) }
         [collectionView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        let padding: CGFloat = 16
+        let padding: CGFloat = .standartPadding
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: padding),

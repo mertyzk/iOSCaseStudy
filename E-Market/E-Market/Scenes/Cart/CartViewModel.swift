@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CartVM {
+final class CartViewModel {
     
     private var cartManager: CartHandler
     
