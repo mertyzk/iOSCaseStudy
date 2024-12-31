@@ -75,6 +75,32 @@ class BaseViewController: UIViewController {
     }
     
     
+    func showEmptyStateView(with message: String, in view: UIView) {
+        let emptyStateView = EMEmptyStateView(message: message)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateView.frame = view.bounds
+        view.addSubview(emptyStateView)
+        
+        NSLayoutConstraint.activate([
+            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    
+    func removeEmptyStateView(from view: UIView) {
+        for subview in view.subviews {
+            if subview is EMEmptyStateView {
+                subview.removeFromSuperview()
+                break
+            }
+        }
+    }
+
+    
+    
     // MARK: - @Actions
     @objc func showLoading() {
         DispatchQueue.main.async { [weak self] in

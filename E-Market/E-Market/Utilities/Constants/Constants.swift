@@ -53,6 +53,7 @@ enum Texts {
     static let filterText      = "Filter"
     static let sortHeader      = "Sort By"
     static let entity404       = "Entity not found"
+    static let noDataFound     = "Sorry, no data found to show."
 }
 
 

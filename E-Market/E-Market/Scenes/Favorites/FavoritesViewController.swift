@@ -58,8 +58,14 @@ final class FavoritesViewController: BaseViewController, AlertManager {
                 self.showAlert(title: AlertConstants.errorTitle, message: error!.rawValue, type: .confirm, completion: {})
                 return
             }
+            
+            if viewModel.favoriteProducts.isEmpty {
+                self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
+            } else {
+                self.removeEmptyStateView(from: self.view)
+            }
+            
             sView.collectionView.reloadAtMainThread()
         }
     }
-    
 }
