@@ -11,4 +11,6 @@ extension Notification.Name {
     static let showLoading   = Notification.Name("showLoading")
     static let hideLoading   = Notification.Name("hideLoading")
     static let changeCartDB  = Notification.Name("changeCartDB")
+    static let didFilter     = Notification.Name("didFilter")
+    static let favUpdated    = Notification.Name("favUpdated")
 }

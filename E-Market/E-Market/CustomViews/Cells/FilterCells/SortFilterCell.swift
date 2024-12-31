@@ -14,7 +14,7 @@ final class SortFilterCell: UITableViewCell {
     
     
     // MARK: - UI Elements
-    private let circleImageView  = EMImageView(width: 24, height: 24)
+    private let circleImageView  = EMImageView(image: UIImage(systemName: SystemImages.circle), width: 24, height: 24)
     private let descriptionLabel = EMLabel(font: AppTheme.medium(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.appTitle)
     
     
@@ -47,6 +47,7 @@ final class SortFilterCell: UITableViewCell {
     }
     
     
+
     func configureCell(with selection: String, isSelected: Bool) {
         descriptionLabel.text = selection
         circleImageView.image = UIImage(systemName: isSelected ? SystemImages.filledCirc : SystemImages.circle)

@@ -7,18 +7,15 @@
 
 import UIKit
 
-protocol HomeCellProtocol: AnyObject {
-    func favoriteButtonTapped(product: Product)
-    func addToCartButtonTapped(product: Product)
-}
-
-
 final class HomeCell: UICollectionViewCell {
     
     // MARK: - Properties
     static let reuseID    = "HomeCell"
-    weak var delegate: HomeCellProtocol?
     private var product: Product?
+    
+    var onTapCell: ((Product) -> Void)?
+    var favoriteButtonTapped: ((Product?) -> Void)?
+    var addToCartButtonTapped: ((Product?) -> Void)?
     
     // MARK: - UI Elements
     private let productIV = EMImageView(height: 150)
@@ -84,6 +81,9 @@ final class HomeCell: UICollectionViewCell {
     
     
     private func configureActions() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
+        productIV.isUserInteractionEnabled = true
+        productIV.addGestureRecognizer(tapGesture)
         starBtn.addTarget(self, action: #selector(starIconTapped), for: .touchUpInside)
         cartBtn.addTarget(self, action: #selector(cartBtnTapped), for: .touchUpInside)
     }
@@ -95,9 +95,7 @@ final class HomeCell: UICollectionViewCell {
         self.product = product
         titleLbl.text = product.name
         priceLbl.text = "\(price.trimDecimalZeros()) \(Texts.tlIconText)"
-        /*buttonFavorite.setImage(
-         UIImage(systemName: isFavorite ? SystemImages.filledStar.rawValue : SystemImages.star.rawValue),
-         for: .normal)*/
+        starBtn.setImage(isFavorite ? Images.filledStar : Images.emptyStar, for: .normal)
         
         NetworkManager.shared.downloadImage(from: imageURL) { [weak self] image in
             guard let self else { return }
@@ -111,12 +109,17 @@ final class HomeCell: UICollectionViewCell {
     // MARK: - @Actions
     @objc private func starIconTapped() {
         guard let product else { return }
-        delegate?.favoriteButtonTapped(product: product)
+        favoriteButtonTapped?(product)
     }
     
     
     @objc private func cartBtnTapped() {
         guard let product else { return }
-        delegate?.addToCartButtonTapped(product: product)
+        addToCartButtonTapped?(product)
+    }
+    
+    @objc private func didTapCell() {
+        guard let product else { return }
+        onTapCell?(product)
     }
 }

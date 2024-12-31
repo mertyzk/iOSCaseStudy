@@ -48,7 +48,13 @@ class NetworkManager: NetworkManagerProtocol {
     }
     
     func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        NotificationCenter.default.post(name: .showLoading, object: nil)
         URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            defer {
+                NotificationCenter.default.post(name: .hideLoading, object: nil)
+            }
+            
             if let error = error {
                 print("xxxxxxxxxxx DEBUG: Image loading error => \(error.localizedDescription)")
                 completion(nil)

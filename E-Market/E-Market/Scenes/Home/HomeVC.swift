@@ -10,13 +10,13 @@ import UIKit
 final class HomeVC: BaseVC, AlertManager {
     
     // MARK: - Properties
-    private let sView = HomeView()
+    let sView = HomeView()
     var viewModel: HomeVM
     
     
     // MARK: - DeInitializer
     deinit {
-        
+        NotificationCenter.default.removeObserver(self, name: .favUpdated, object: nil)
     }
     
     init(viewModel: HomeVM) {
@@ -35,14 +35,20 @@ final class HomeVC: BaseVC, AlertManager {
         configureCollectionView()
         configureData()
         configureActions()
+        configureNotificationObservers()
     }
     
-    
+
     // MARK: - Helper Functions
     private func configureCollectionView() {
         sView.collectionView.delegate = self
         sView.collectionView.dataSource = self
         sView.collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.reuseID)
+    }
+    
+    
+    private func configureNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: .favUpdated, object: nil)
     }
     
     
@@ -70,5 +76,10 @@ final class HomeVC: BaseVC, AlertManager {
         let filterVM = FilterVM()
         let nav = UINavigationController(rootViewController: FilterVC(viewModel: filterVM))
         navigationController?.show(nav, sender: nil)
+    }
+    
+    
+    @objc private func favoritesUpdated() {
+        viewModel.fetchProducts()
     }
 }

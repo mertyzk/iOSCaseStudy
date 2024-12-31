@@ -76,14 +76,14 @@ final class FavoriteStore: FavoriteHandler {
             if let results = try context.fetch(fetchRequest) as? [NSManagedObject] {
                 let products = results.map { result in
                     Product(
-                        createdAt: result.value(forKey: ProductKey.brand.rawValue) as? String,
-                        name: result.value(forKey: ProductKey.createdAt.rawValue) as? String,
-                        image: result.value(forKey: ProductKey.description.rawValue) as? String,
-                        price: result.value(forKey: ProductKey.id.rawValue) as? String,
-                        description: result.value(forKey: ProductKey.image.rawValue) as? String,
+                        createdAt: result.value(forKey: ProductKey.createdAt.rawValue) as? String,
+                        name: result.value(forKey: ProductKey.name.rawValue) as? String,
+                        image: result.value(forKey: ProductKey.image.rawValue) as? String,
+                        price: result.value(forKey: ProductKey.price.rawValue) as? String,
+                        description: result.value(forKey: ProductKey.description.rawValue) as? String,
                         model: result.value(forKey: ProductKey.model.rawValue) as? String,
-                        brand: result.value(forKey: ProductKey.name.rawValue) as? String,
-                        id: result.value(forKey: ProductKey.price.rawValue) as? String
+                        brand: result.value(forKey: ProductKey.brand.rawValue) as? String,
+                        id: result.value(forKey: ProductKey.id.rawValue) as? String
                     )
                 }
                 completion(.success(products))

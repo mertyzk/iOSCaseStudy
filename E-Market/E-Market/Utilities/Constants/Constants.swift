@@ -58,4 +58,5 @@ enum SystemImages {
     static let filledCirc = "circle.inset.filled"
     static let checkBox   = "checkmark.square"
     static let filledCBox = "checkmark.square.fill"
+    static let magnifyingglass = "magnifyingglass"
 }

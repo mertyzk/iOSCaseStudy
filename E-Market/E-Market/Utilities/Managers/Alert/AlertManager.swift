@@ -30,12 +30,14 @@ extension AlertManager {
             
             switch type {
             case .confirm:
-                alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: UIAlertAction.Style.default, handler: nil))
-            case .sure:
-                alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: UIAlertAction.Style.default, handler: { _ in
+                alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: .default, handler: { _ in
                     completion()
                 }))
-                alertController.addAction(UIAlertAction(title: AlertType.sure.title, style: UIAlertAction.Style.default, handler: nil))
+            case .sure:
+                alertController.addAction(UIAlertAction(title: AlertType.confirm.title, style: .default, handler: { _ in
+                    completion()
+                }))
+                alertController.addAction(UIAlertAction(title: AlertType.sure.title, style: .destructive, handler: nil))
             }
             
             self.present(alertController, animated: true)

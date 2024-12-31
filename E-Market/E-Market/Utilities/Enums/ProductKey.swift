@@ -10,7 +10,7 @@ import Foundation
 enum ProductKey: String {
     case brand
     case createdAt
-    case description
+    case description = "descriptio"
     case id
     case image
     case model

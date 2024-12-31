@@ -9,4 +9,21 @@ import Foundation
 
 final class CartVM {
     
+    private var cartManager: CartHandler
+    
+    init(cartManager: CartHandler) {
+        self.cartManager = cartManager
+    }
+    
+    func getTest() {
+        cartManager.fetchProductsFromLocalDB { result in
+            switch result {
+            case .success(let products):
+                print("xxxxxxxxxxx DEBUG: \(products)")
+            case .failure(let error):
+                print("xxxxxxxxxxx DEBUG: \(error)")
+            }
+        }
+    }
+    
 }

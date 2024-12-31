@@ -62,15 +62,15 @@ class BaseVC: UIViewController {
     
     private func configureActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.hidesWhenStopped = true
+        activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.color = AppTheme.Colors.navBlue
         view.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
-            activityIndicator.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            activityIndicator.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            activityIndicator.topAnchor.constraint(equalTo: self.view.topAnchor),
-            activityIndicator.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            activityIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            activityIndicator.topAnchor.constraint(equalTo: view.topAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
           ])
     }
     

@@ -11,14 +11,20 @@ final class FavoriteCell: UICollectionViewCell {
     
     // MARK: - Properties
     static let reuseID    = "FavoriteCell"
+    private var product: Product?
     
     
     // MARK: - UI Elements
     private let productIV = EMImageView(height: 150)
-    private let starIV    = EMImageView(image: Images.emptyStar, width: 24, height: 24)
+    private let starBtn   = EMButton(width: 24, height: 24, image: Images.filledStar)
     private let priceLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.navBlue, text: Texts.priceText)
     private let titleLbl  = EMLabel(font: AppTheme.regular(ofSize: 14), textColor: AppTheme.Colors.systemBlack, text: Texts.titleText)
     private let cartBtn   = EMButton(font: AppTheme.regular(ofSize: 16), textColor: AppTheme.Colors.systemWhite, bgColor: AppTheme.Colors.navBlue, text: Texts.addToCart, cornerRadius: 4)
+    
+    
+    var onTapCell: ((Product) -> Void)?
+    var unFavoriteButtonTapped: ((Product?) -> Void)?
+    var addToCartButtonTapped: ((Product?) -> Void)?
     
     
     // MARK: - Initializer
@@ -26,6 +32,7 @@ final class FavoriteCell: UICollectionViewCell {
         super.init(frame: frame)
         configureUI()
         configureCell()
+        configureActions()
     }
     
     required init?(coder: NSCoder) {
@@ -47,8 +54,8 @@ final class FavoriteCell: UICollectionViewCell {
     
     private func configureUI() {
         [productIV, priceLbl, titleLbl, cartBtn].forEach { addSubview($0) }
-        productIV.addSubview(starIV)
-        [productIV, starIV, priceLbl, titleLbl, cartBtn].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        productIV.addSubview(starBtn)
+        [productIV, starBtn, priceLbl, titleLbl, cartBtn].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         let padding: CGFloat = 10
         
@@ -57,8 +64,8 @@ final class FavoriteCell: UICollectionViewCell {
             productIV.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             productIV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             
-            starIV.topAnchor.constraint(equalTo: productIV.topAnchor, constant: 6),
-            starIV.trailingAnchor.constraint(equalTo: productIV.trailingAnchor, constant: -6),
+            starBtn.topAnchor.constraint(equalTo: productIV.topAnchor, constant: 6),
+            starBtn.trailingAnchor.constraint(equalTo: productIV.trailingAnchor, constant: -6),
             
             priceLbl.topAnchor.constraint(equalTo: productIV.bottomAnchor, constant: padding + 5),
             priceLbl.leadingAnchor.constraint(equalTo: productIV.leadingAnchor),
@@ -75,15 +82,12 @@ final class FavoriteCell: UICollectionViewCell {
     }
     
     
-    func configureData(with product: Product, isFavorite: Bool) {
+    func configureData(with product: Product) {
         guard let price = product.price else { return }
         guard let imageURLString = product.image, let imageURL = URL(string: imageURLString) else { return }
-        
+        self.product = product
         titleLbl.text = product.name
         priceLbl.text = "\(price.trimDecimalZeros()) \(Texts.tlIconText)"
-        /*buttonFavorite.setImage(
-            UIImage(systemName: isFavorite ? SystemImages.filledStar.rawValue : SystemImages.star.rawValue),
-            for: .normal)*/
         
         NetworkManager.shared.downloadImage(from: imageURL) { [weak self] image in
             guard let self else { return }
@@ -91,5 +95,33 @@ final class FavoriteCell: UICollectionViewCell {
                 self.productIV.image = image
             }
         }
+    }
+    
+    
+    private func configureActions() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
+        productIV.isUserInteractionEnabled = true
+        productIV.addGestureRecognizer(tapGesture)
+        starBtn.addTarget(self, action: #selector(starIconTapped), for: .touchUpInside)
+        cartBtn.addTarget(self, action: #selector(cartBtnTapped), for: .touchUpInside)
+    }
+    
+    
+    // MARK: - @Actions
+    @objc private func starIconTapped() {
+        guard let product else { return }
+        unFavoriteButtonTapped?(product)
+    }
+    
+    
+    @objc private func cartBtnTapped() {
+        guard let product else { return }
+        addToCartButtonTapped?(product)
+    }
+    
+    
+    @objc private func didTapCell() {
+        guard let product else { return }
+        onTapCell?(product)
     }
 }
