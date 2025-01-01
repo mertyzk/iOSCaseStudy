@@ -46,7 +46,7 @@ class MockCartHandler: CartHandler {
             mockCartItems[index] = product
             completion(.success(()))
         } else {
-            completion(.failure(.updObjectError))
+            completion(.failure(.updateObjectError))
         }
     }
     

@@ -61,10 +61,10 @@ final class CartStore: CartHandler {
                 try context.save()
                 completion(.success(()))
             } else {
-                completion(.failure(.delObjectError))
+                completion(.failure(.deleteObjectError))
             }
         } catch {
-            completion(.failure(.delObjectError))
+            completion(.failure(.deleteObjectError))
         }
     }
     
@@ -110,10 +110,10 @@ final class CartStore: CartHandler {
                 try context.save()
                 completion(.success(()))
             } else {
-                completion(.failure(.updObjectError))
+                completion(.failure(.updateObjectError))
             }
         } catch {
-            completion(.failure(.updObjectError))
+            completion(.failure(.updateObjectError))
         }
     }
 
@@ -134,7 +134,7 @@ final class CartStore: CartHandler {
                             case .success():
                                 completion(.success(()))
                             case .failure:
-                                completion(.failure(.updObjectError))
+                                completion(.failure(.updateObjectError))
                             }
                         }
                     } else {

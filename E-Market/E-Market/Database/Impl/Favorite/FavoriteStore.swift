@@ -61,10 +61,10 @@ final class FavoriteStore: FavoriteHandler {
                 try context.save()
                 completion(.success(()))
             } else {
-                completion(.failure(.delObjectError))
+                completion(.failure(.deleteObjectError))
             }
         } catch {
-            completion(.failure(.delObjectError))
+            completion(.failure(.deleteObjectError))
         }
     }
     
