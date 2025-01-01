@@ -42,14 +42,14 @@ class MockCartHandler: CartHandler {
     func updateProductFromLocalDB(product: Product, completion: @escaping (Result<Void, DBErrors>) -> Void) {
         if let error = mockError {
             completion(.failure(error))
-        } else {
-            if let index = mockCartItems.firstIndex(where: { $0.id == product.id }) {
-                mockCartItems[index] = product
-            }
+        } else if let index = mockCartItems.firstIndex(where: { $0.id == product.id }) {
+            mockCartItems[index] = product
             completion(.success(()))
+        } else {
+            completion(.failure(.updObjectError))
         }
     }
-
+    
     func removeFromCartFromLocalDB(product: Product, completion: @escaping (Result<Void, DBErrors>) -> Void) {
         if let error = mockError {
             completion(.failure(error))
