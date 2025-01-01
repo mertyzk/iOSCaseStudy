@@ -58,6 +58,7 @@ enum Texts {
     static let purchaseError   = "Something went wrong at the moment of purchase."
     static let brandsHeader    = "Brands"
     static let modelsHeader    = "Models"
+    static let eterationURL    = "https://eteration.com"
 }
 
 
