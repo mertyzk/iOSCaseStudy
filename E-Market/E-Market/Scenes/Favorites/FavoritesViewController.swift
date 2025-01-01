@@ -48,6 +48,7 @@ final class FavoritesViewController: BaseViewController, AlertManager {
     
     private func getFavorites() {
         viewModel.getFavoritesFromLocalDB()
+        configureEmptyView()
     }
     
     
@@ -59,13 +60,17 @@ final class FavoritesViewController: BaseViewController, AlertManager {
                 return
             }
             
-            if viewModel.favoriteProducts.isEmpty {
-                self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
-            } else {
-                self.removeEmptyStateView(from: self.view)
-            }
-            
+            configureEmptyView()
             sView.collectionView.reloadAtMainThread()
+        }
+    }
+    
+    
+    private func configureEmptyView() {
+        if viewModel.favoriteProducts.isEmpty {
+            self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
+        } else {
+            self.removeEmptyStateView(from: self.view)
         }
     }
 }
