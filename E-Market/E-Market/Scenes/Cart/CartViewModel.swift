@@ -14,7 +14,6 @@ final class CartViewModel {
     private(set) var cartItems: [Product] = [] {
         didSet {
             notifyCartUpdate()
-            onChangeCart?(nil)
         }
     }
     
@@ -41,6 +40,7 @@ final class CartViewModel {
             switch result {
             case .success(let products):
                 cartItems = products
+                onChangeCart?(nil)
             case .failure(let error):
                 onChangeCart?(error)
             }
@@ -65,6 +65,7 @@ final class CartViewModel {
                 if case .failure(let error) = result {
                     self.onChangeCart?(error)
                 }
+                self.onChangeCart?(nil)
             }
         }
     }
@@ -94,8 +95,8 @@ final class CartViewModel {
                     guard let self else { return }
                     switch result {
                     case .success(_):
-                        self.onChangeCart?(nil)
                         cartItems.remove(at: index)
+                        self.onChangeCart?(nil)
                     case .failure(let error):
                         self.onChangeCart?(error)
                     }

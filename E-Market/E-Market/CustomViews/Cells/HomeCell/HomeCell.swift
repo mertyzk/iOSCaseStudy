@@ -38,6 +38,14 @@ final class HomeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImageView.image = nil
+        favoriteButton.setImage(nil, for: .normal)
+        priceLabel.text = nil
+        titleLabel.text = nil
+    }
+    
  
     // MARK: - Helper Functions
     private func configureCell() {
