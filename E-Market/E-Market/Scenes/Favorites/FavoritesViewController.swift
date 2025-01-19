@@ -48,20 +48,21 @@ final class FavoritesViewController: BaseViewController, AlertManager {
     
     private func getFavorites() {
         viewModel.getFavoritesFromLocalDB()
-        configureEmptyView()
     }
     
     
     private func configureBinding() {
         viewModel.favoritesChanged = { [weak self] error in
             guard let self else { return }
-            guard error == nil else {
-                self.showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm, completion: {})
-                return
+            DispatchQueue.main.async {
+                guard error == nil else {
+                    self.showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm, completion: {})
+                    return
+                }
+                
+                self.configureEmptyView()
+                self.sView.collectionView.reloadAtMainThread()
             }
-            
-            configureEmptyView()
-            sView.collectionView.reloadAtMainThread()
         }
     }
     

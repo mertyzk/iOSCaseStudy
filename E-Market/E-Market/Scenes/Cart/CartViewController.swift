@@ -54,18 +54,21 @@ final class CartViewController: BaseViewController, AlertManager {
     private func bindingData() {
         viewModel.onChangeCart = { [weak self] error in
             guard let self else { return }
-            guard error == nil else {
-                showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm) { }
-                return
+            DispatchQueue.main.async {
+                guard error == nil else {
+                    self.showAlert(title: AlertConstants.generalErrorTitle, message: error!.rawValue, type: .confirm) { }
+                    return
+                }
+                if self.viewModel.cartItems.isEmpty {
+                    self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
+                } else {
+                    self.removeEmptyStateView(from: self.view)
+                }
+                self.sView.totalPriceLabel.text = "\(Texts.totalCart) \(self.viewModel.totalPrice) \(Texts.tlIconText)"
+                self.sView.tableView.reloadData()
             }
-            if viewModel.cartItems.isEmpty {
-                self.showEmptyStateView(with: Texts.noDataFound, in: self.view)
-            } else {
-                self.removeEmptyStateView(from: self.view)
-            }
-            sView.totalPriceLabel.text = "\(Texts.totalCart) \(viewModel.totalPrice) \(Texts.tlIconText)"
-            sView.tableView.reloadAtMainThread()
         }
+
     }
     
     
