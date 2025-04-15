@@ -64,8 +64,11 @@ class EMTabBarController: UITabBarController {
     
     
     private func updateCartBadge(with count: Int) {
-        let cartTabBarItem = tabBar.items?[1]
-        cartTabBarItem?.badgeValue = count > 0 ? "\(count)" : nil
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let cartTabBarItem = tabBar.items?[1]
+            cartTabBarItem?.badgeValue = count > 0 ? "\(count)" : nil
+        }
     }
     
     

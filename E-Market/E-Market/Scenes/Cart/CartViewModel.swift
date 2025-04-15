@@ -11,10 +11,16 @@ final class CartViewModel {
     
     // MARK: - Properties
     private var cartManager: CartHandler
-    private(set) var cartItems: [Product] = [] {
-        didSet {
-            notifyCartUpdate()
+    
+    private var _cartItems: [Product] = []
+    private let syncQueue = DispatchQueue(label: "com.e-market.cart.syncQueue", attributes: .concurrent)
+    
+    var cartItems: [Product] {
+        var products: [Product] = []
+        syncQueue.sync {
+            products = _cartItems
         }
+        return products
     }
     
     var totalPrice: Double {
@@ -39,8 +45,12 @@ final class CartViewModel {
             guard let self else { return }
             switch result {
             case .success(let products):
-                cartItems = products
-                onChangeCart?(nil)
+                self.syncQueue.async(flags: .barrier) {
+                    self._cartItems = products
+                    self.notifyCartUpdate()
+                    self.onChangeCart?(nil)
+                }
+
             case .failure(let error):
                 onChangeCart?(error)
             }
@@ -55,7 +65,6 @@ final class CartViewModel {
     func increaseItemQuantity(product: Product) {
         if let index = cartItems.firstIndex(where: { $0.id == product.id }) {
             let newQuantity = (cartItems[index].quantity ?? 0) + 1
-            cartItems[index].quantity = newQuantity
             
             var updatedProduct = product
             updatedProduct.quantity = newQuantity
@@ -65,7 +74,11 @@ final class CartViewModel {
                 if case .failure(let error) = result {
                     self.onChangeCart?(error)
                 }
-                self.onChangeCart?(nil)
+                
+                self.syncQueue.async(flags: .barrier) {
+                    self._cartItems[index].quantity = newQuantity
+                    self.onChangeCart?(nil)
+                }
             }
         }
     }
@@ -76,7 +89,6 @@ final class CartViewModel {
             let currentQuantity = cartItems[index].quantity ?? 0
             if currentQuantity > 1 {
                 let newQuantity = currentQuantity - 1
-                cartItems[index].quantity = newQuantity
                 
                 var updatedProduct = product
                 updatedProduct.quantity = newQuantity
@@ -85,7 +97,11 @@ final class CartViewModel {
                     guard let self else { return }
                     switch result {
                     case .success(_):
-                        self.onChangeCart?(nil)
+                        self.syncQueue.async(flags: .barrier) {
+                            self._cartItems[index].quantity = newQuantity
+                            self.notifyCartUpdate()
+                            self.onChangeCart?(nil)
+                        }
                     case .failure(let error):
                         self.onChangeCart?(error)
                     }
@@ -95,8 +111,11 @@ final class CartViewModel {
                     guard let self else { return }
                     switch result {
                     case .success(_):
-                        cartItems.remove(at: index)
-                        self.onChangeCart?(nil)
+                        self.syncQueue.async(flags: .barrier) {
+                            self._cartItems.remove(at: index)
+                            self.notifyCartUpdate()
+                            self.onChangeCart?(nil)
+                        }
                     case .failure(let error):
                         self.onChangeCart?(error)
                     }
@@ -111,9 +130,12 @@ final class CartViewModel {
             guard let self else { return }
             switch result {
             case .success(_):
-                self.cartItems = []
-                completion(nil)
-                onChangeCart?(nil)
+                self.syncQueue.async(flags: .barrier) {
+                    self._cartItems = []
+                    self.notifyCartUpdate()
+                    completion(nil)
+                    self.onChangeCart?(nil)
+                }
             case .failure(_):
                 completion(Texts.purchaseError)
             }
