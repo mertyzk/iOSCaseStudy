@@ -47,10 +47,11 @@ final class CartViewModel {
             case .success(let products):
                 self.syncQueue.async(flags: .barrier) {
                     self._cartItems = products
-                    self.notifyCartUpdate()
-                    self.onChangeCart?(nil)
+                    self.runOnMain {
+                        self.notifyCartUpdate()
+                        self.onChangeCart?(nil)
+                    }
                 }
-
             case .failure(let error):
                 onChangeCart?(error)
             }
@@ -77,7 +78,9 @@ final class CartViewModel {
                 
                 self.syncQueue.async(flags: .barrier) {
                     self._cartItems[index].quantity = newQuantity
-                    self.onChangeCart?(nil)
+                    self.runOnMain {
+                        self.onChangeCart?(nil)
+                    }
                 }
             }
         }
@@ -99,8 +102,10 @@ final class CartViewModel {
                     case .success(_):
                         self.syncQueue.async(flags: .barrier) {
                             self._cartItems[index].quantity = newQuantity
-                            self.notifyCartUpdate()
-                            self.onChangeCart?(nil)
+                            self.runOnMain {
+                                self.notifyCartUpdate()
+                                self.onChangeCart?(nil)
+                            }
                         }
                     case .failure(let error):
                         self.onChangeCart?(error)
@@ -113,8 +118,10 @@ final class CartViewModel {
                     case .success(_):
                         self.syncQueue.async(flags: .barrier) {
                             self._cartItems.remove(at: index)
-                            self.notifyCartUpdate()
-                            self.onChangeCart?(nil)
+                            self.runOnMain {
+                                self.notifyCartUpdate()
+                                self.onChangeCart?(nil)
+                            }
                         }
                     case .failure(let error):
                         self.onChangeCart?(error)
@@ -132,13 +139,20 @@ final class CartViewModel {
             case .success(_):
                 self.syncQueue.async(flags: .barrier) {
                     self._cartItems = []
-                    self.notifyCartUpdate()
-                    completion(nil)
-                    self.onChangeCart?(nil)
+                    self.runOnMain {
+                        self.notifyCartUpdate()
+                        completion(nil)
+                        self.onChangeCart?(nil)
+                    }
                 }
             case .failure(_):
                 completion(Texts.purchaseError)
             }
         }
+    }
+    
+    
+    private func runOnMain(_ work: @escaping () -> Void) {
+        DispatchQueue.mainAsync(work)
     }
 }

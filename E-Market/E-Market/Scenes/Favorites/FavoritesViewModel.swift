@@ -65,7 +65,9 @@ final class FavoritesViewModel {
             case .success(let favorites):
                 self.syncQueue.async(flags: .barrier) {
                     self._favoriteProducts = favorites
-                    self.favoritesChanged?(nil)
+                    DispatchQueue.main.async {
+                        self.favoritesChanged?(nil)
+                    }
                     /// .barrier sayesinde bu blok;
                     /// Queue'daki tüm önceki işlemler bitmeden başlamaz.
                     /// Kendi çalışırken başka hiç bir iş (okuma bile) başlamaz.
