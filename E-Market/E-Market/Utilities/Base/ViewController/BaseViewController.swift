@@ -8,8 +8,10 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+    
     // MARK: - Properties
     private var activityIndicator: UIActivityIndicatorView!
+    
     
     // MARK: - Initializer
     deinit {
@@ -24,6 +26,12 @@ class BaseViewController: UIViewController {
         configureNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(showLoading), name: .showLoading, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideLoading), name: .hideLoading, object: nil)
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeEmptyStateView(from: view)
     }
     
     
@@ -71,7 +79,7 @@ class BaseViewController: UIViewController {
             activityIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             activityIndicator.topAnchor.constraint(equalTo: view.topAnchor),
             activityIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-          ])
+        ])
     }
     
     
@@ -98,7 +106,6 @@ class BaseViewController: UIViewController {
             }
         }
     }
-
     
     
     // MARK: - @Actions
