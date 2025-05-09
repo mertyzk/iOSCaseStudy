@@ -15,6 +15,7 @@ class EMTabBarController: UITabBarController {
         configureViewControllers()
         setupNotificationObservers()
         setCartBadge()
+        delegate = self
     }
     
     
@@ -75,5 +76,15 @@ class EMTabBarController: UITabBarController {
             self.updateCartBadge(with: count)
         }
     }
+}
 
+
+// MARK: - UITabBarControllerDelegate
+extension EMTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        guard let navigationController = viewController as? UINavigationController else { return }
+        if navigationController.viewControllers.count > 1 {
+            navigationController.popToRootViewController(animated: false)
+        }
+    }
 }
